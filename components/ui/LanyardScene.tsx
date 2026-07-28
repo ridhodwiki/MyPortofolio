@@ -32,11 +32,23 @@ useGLTF.preload(GLTF_PATH);
 useTexture.preload(BAND_TEXTURE_PATH);
 
 export default function LanyardScene({ photoSrc }: { photoSrc: string }) {
+  // Detect mobile (below lg breakpoint) at the top level so we can key the
+  // Physics world — a key change fully remounts physics bodies at the correct
+  // positions, keeping the rope properly connected to the card.
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth < 1024 : false
+  );
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
     <Canvas camera={{ position: [0, 0, 13], fov: 27 }} gl={{ alpha: true }} dpr={[1, 2]}>
       <ambientLight intensity={Math.PI} />
-      <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
-        <Band photoSrc={photoSrc} />
+      <Physics key={isMobile ? "mobile" : "desktop"} interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
+        <Band photoSrc={photoSrc} isMobile={isMobile} />
       </Physics>
       <Environment blur={0.75}>
         <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
@@ -48,7 +60,7 @@ export default function LanyardScene({ photoSrc }: { photoSrc: string }) {
   );
 }
 
-function Band({ maxSpeed = 50, minSpeed = 10, photoSrc }) {
+function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
   const band = useRef(), fixed = useRef(), j1 = useRef(), j2 = useRef(), j3 = useRef(), card = useRef(); // prettier-ignore
   const vec = new THREE.Vector3(), ang = new THREE.Vector3(), rot = new THREE.Vector3(), dir = new THREE.Vector3(); // prettier-ignore
   const segmentProps = { type: "dynamic", canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
@@ -56,6 +68,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc }) {
   const bandTexture = useTexture(BAND_TEXTURE_PATH);
   const photoTexture = useTexture(photoSrc);
   const { width, height } = useThree((state) => state.size);
+
   const [curve] = useState(
     () =>
       new THREE.CatmullRomCurve3([
@@ -147,7 +160,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc }) {
 
   return (
     <>
-      <group position={[1, 4, 0]}>
+      <group position={[isMobile ? 0 : 1, 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
         <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
@@ -168,10 +181,10 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc }) {
           <group
             scale={2.25}
             position={[0, -1.2, -0.05]}
-            onPointerOver={() => hover(true)}
-            onPointerOut={() => hover(false)}
-            onPointerUp={(e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
-            onPointerDown={(e) =>
+            onPointerOver={isMobile ? undefined : () => hover(true)}
+            onPointerOut={isMobile ? undefined : () => hover(false)}
+            onPointerUp={isMobile ? undefined : (e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
+            onPointerDown={isMobile ? undefined : (e) =>
             (e.target.setPointerCapture(e.pointerId),
               drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation()))))
             }

@@ -22,10 +22,10 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen overflow-visible w-full"
+      className="relative min-h-screen overflow-hidden lg:overflow-visible w-full"
       style={{ clipPath: 'none' }}
     >
-      <div className="relative flex flex-col lg:grid lg:grid-cols-2 min-h-screen items-center gap-4 lg:gap-8 overflow-visible">
+      <div className="relative flex flex-col lg:grid lg:grid-cols-2 min-h-screen items-center gap-4 lg:gap-8 overflow-hidden lg:overflow-visible">
         {/* Text content - left side desktop, top mobile */}
         <div className="flex flex-col justify-center items-center text-center lg:items-start lg:text-left pt-16 sm:pt-24 lg:pt-0 px-4 sm:px-6 lg:pl-16 lg:pr-0 order-2 lg:order-1 relative z-10 w-full lg:translate-x-16">
           <motion.div
