@@ -181,10 +181,10 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
           <group
             scale={2.25}
             position={[0, -1.2, -0.05]}
-            onPointerOver={isMobile ? undefined : () => hover(true)}
-            onPointerOut={isMobile ? undefined : () => hover(false)}
-            onPointerUp={isMobile ? undefined : (e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
-            onPointerDown={isMobile ? undefined : (e) =>
+            onPointerOver={() => hover(true)}
+            onPointerOut={() => hover(false)}
+            onPointerUp={(e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
+            onPointerDown={(e) =>
             (e.target.setPointerCapture(e.pointerId),
               drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation()))))
             }

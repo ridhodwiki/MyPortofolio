@@ -83,14 +83,14 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
+        "fixed inset-x-0 top-0 z-50 transition-all duration-500 pointer-events-none",
         scrolled ? "py-3" : "py-5"
       )}
     >
-      <div className="section-container">
+      <div className="section-container pointer-events-auto">
         <nav
           className={cn(
-            "flex items-center justify-between rounded-2xl px-4 sm:px-6 py-3 transition-all duration-500",
+            "relative z-[60] flex items-center justify-between rounded-2xl px-4 sm:px-6 py-3 transition-all duration-500",
             scrolled ? "glass shadow-glass" : "bg-transparent border border-transparent"
           )}
           aria-label="Primary"
