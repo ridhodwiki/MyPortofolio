@@ -27,7 +27,7 @@ export default function LoadingScreen() {
               transition={{ duration: 0.5 }}
               className="text-2xl font-bold tracking-tight text-white"
             >
-              Davin<span className="text-primary">.</span>
+              Ridho<span className="text-primary">.</span>
             </motion.span>
             <div className="h-[3px] w-40 overflow-hidden rounded-full bg-white/10">
               <motion.div

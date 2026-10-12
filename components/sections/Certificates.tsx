@@ -60,7 +60,7 @@ export default function Certificates() {
                     {cert.year}
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm font-bold text-gray-100 sm:text-base" style={{ color: '#FFFFFF' }}>
+                <h3 className="mt-2 text-sm font-bold text-white sm:text-base">
                   {cert.name}
                 </h3>
                 <p className="mt-1 text-xs font-medium text-secondary">

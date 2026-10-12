@@ -20,8 +20,9 @@ export interface Project {
   tech: string[];
   github?: string;
   demo?: string;
+  externalLink?: string;
   thumbnail: string;
-  detail: {
+  detail?: {
     overview: string;
     problem: string;
     solution: string;

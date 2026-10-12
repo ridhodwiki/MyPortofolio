@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks } from "@/lib/data";
 import { scrollToSection, cn } from "@/lib/utils";
+import ThemeToggle from "@/components/layout/ThemeToggle";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -101,9 +102,10 @@ export default function Navbar() {
               e.preventDefault();
               handleNavClick("#home");
             }}
-            className="text-lg font-bold tracking-tight text-white"
+            className="text-lg font-bold tracking-tight"
+            style={{ color: "var(--color-text)" }}
           >
-            Davin<span className="text-primary">.</span>
+            Ridho<span className="text-primary">.</span>
           </a>
 
           <ul className="hidden md:flex items-center gap-1">
@@ -119,8 +121,9 @@ export default function Navbar() {
                     }}
                     className={cn(
                       "relative block px-4 py-2 text-sm font-medium transition-colors duration-300",
-                      isActive ? "text-white" : "text-text-secondary hover:text-white"
+                      isActive ? "" : "text-text-secondary hover:text-white"
                     )}
+                    style={isActive ? { color: "var(--color-text)" } : undefined}
                   >
                     {link.label}
                     {isActive && (
@@ -136,37 +139,41 @@ export default function Navbar() {
             })}
           </ul>
 
-          <button
-            type="button"
-            onClick={() => setOpen((o) => !o)}
-            className="md:hidden inline-flex items-center justify-center rounded-full p-2 text-white glass"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {open ? (
-                <motion.span
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X size={20} />
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu size={20} />
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setOpen((o) => !o)}
+              className="md:hidden inline-flex items-center justify-center rounded-full p-2 glass"
+              style={{ color: "var(--color-text)" }}
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {open ? (
+                  <motion.span
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X size={20} />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu size={20} />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
+          </div>
         </nav>
 
         <AnimatePresence>
@@ -195,9 +202,10 @@ export default function Navbar() {
                       className={cn(
                         "block rounded-xl px-4 py-3 text-sm font-medium transition-colors",
                         active === link.href
-                          ? "bg-white/[0.06] text-white"
-                          : "text-text-secondary hover:text-white hover:bg-white/[0.04]"
+                          ? "bg-white/[0.06]"
+                          : "text-text-secondary hover:bg-white/[0.04]"
                       )}
+                      style={{ color: active === link.href ? "var(--color-text)" : undefined }}
                     >
                       {link.label}
                     </a>

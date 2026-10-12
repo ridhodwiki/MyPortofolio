@@ -22,7 +22,6 @@ const interestIcons: Record<string, React.ElementType> = {
   "Mobile Development": Smartphone,
   "Artificial Intelligence": BrainCircuit,
   "UI/UX Design": Palette,
-  "Database Management": Database,
   "Information Technology": Cpu,
 };
 
@@ -61,7 +60,7 @@ export default function About() {
                     {profile.university}
                   </p>
                   <p className="text-xs text-text-secondary">
-                    Information Systems &middot; {profile.start}
+                    Infomatics Engineering &middot; {profile.start}
                   </p>
                 </div>
               </div>

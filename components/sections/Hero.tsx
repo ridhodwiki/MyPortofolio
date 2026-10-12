@@ -1,7 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Github, Linkedin, Mail, ArrowDown } from "lucide-react";
+import { Download, Github, Linkedin, Mail } from "lucide-react";
+import { useState, useEffect } from "react";
+
+import InstagramIcon from "@/components/ui/InstagramIcon";
 import LanyardCard from "@/components/ui/LanyardCard";
 import { profile } from "@/lib/data";
 import { scrollToSection, EASE } from "@/lib/utils";
@@ -55,8 +58,8 @@ export default function Hero() {
 
             <motion.p
               variants={heroItem}
-              className="mt-5 text-sm leading-relaxed text-white sm:text-base"
-              style={{ color: '#FFFFFF' }}
+              className="mt-5 text-sm leading-relaxed sm:text-base"
+              style={{ color: "var(--color-text)", opacity: 1 }}
             >
               {profile.heroDescription}
             </motion.p>
@@ -100,6 +103,18 @@ export default function Hero() {
               LinkedIn
             </motion.a>
 
+            <motion.a
+              href="https://instagram.com/ridho.dwikiii"
+              target="_blank"
+              rel="noreferrer"
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.96 }}
+              className="btn-ghost"
+            >
+              <InstagramIcon size={16} />
+              Instagram
+            </motion.a>
+
             <motion.button
               type="button"
               onClick={() => scrollToSection("#contact")}
@@ -120,16 +135,6 @@ export default function Hero() {
         </div>
       </div>
 
-      <motion.button
-        type="button"
-        onClick={() => scrollToSection("#about")}
-        aria-label="Scroll to About section"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-24 left-1/2 z-10 hidden -translate-x-1/2 items-center justify-center rounded-full border border-white/10 bg-base/40 p-2 text-text-secondary backdrop-blur-sm hover:text-white lg:flex sm:bottom-28"
-      >
-        <ArrowDown size={18} />
-      </motion.button>
     </section>
   );
 }

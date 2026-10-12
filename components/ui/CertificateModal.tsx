@@ -35,7 +35,7 @@ export default function CertificateModal({
           className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
           role="dialog"
           aria-modal="true"
-          aria-label={certificate.name}
+          aria-labelledby="certificate-title"
           onClick={onClose}
         >
           <motion.div
@@ -49,7 +49,7 @@ export default function CertificateModal({
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close"
+              aria-label="Close certificate preview"
               className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white transition-colors hover:bg-black/60"
             >
               <X size={16} />
@@ -72,7 +72,7 @@ export default function CertificateModal({
                   {certificate.year}
                 </span>
               </div>
-              <h3 className="mt-2 text-xl font-bold text-white">
+              <h3 id="certificate-title" className="mt-2 text-xl font-bold text-white">
                 {certificate.name}
               </h3>
               <p className="mt-1 text-sm font-medium text-secondary">

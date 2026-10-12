@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, ArrowUp } from "lucide-react";
 import { profile } from "@/lib/data";
+import InstagramIcon from "@/components/ui/InstagramIcon";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -15,6 +16,7 @@ export default function Footer() {
     { icon: Github, href: profile.github, label: "GitHub" },
     { icon: Linkedin, href: profile.linkedin, label: "LinkedIn" },
     { icon: Mail, href: `mailto:${profile.email}`, label: "Email" },
+    { icon: InstagramIcon, href: "https://instagram.com/ridho.dwikiii", label: "Instagram" },
   ];
 
   return (

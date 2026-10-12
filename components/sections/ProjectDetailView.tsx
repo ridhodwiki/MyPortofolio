@@ -19,13 +19,15 @@ import {
 import { Project } from "@/lib/types";
 import { fadeUp, staggerContainer } from "@/lib/utils";
 
+type ProjectWithDetail = Project & { detail: NonNullable<Project["detail"]> };
+
 const blocks = [
   { key: "overview", label: "Overview", icon: Layers },
   { key: "problem", label: "Problem", icon: Target },
   { key: "solution", label: "Solution", icon: Lightbulb },
 ] as const;
 
-export default function ProjectDetailView({ project }: { project: Project }) {
+export default function ProjectDetailView({ project }: { project: ProjectWithDetail }) {
   return (
     <article className="relative pb-24 pt-32 sm:pt-40">
       <div className="section-container">
@@ -260,7 +262,7 @@ export default function ProjectDetailView({ project }: { project: Project }) {
           <h2 className="mt-4 text-sm font-semibold uppercase tracking-wider text-white">
             Result
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-300 sm:text-base" style={{ color: '#D1D5DB' }}>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-300 sm:text-base">
             {project.detail.result}
           </p>
         </motion.div>

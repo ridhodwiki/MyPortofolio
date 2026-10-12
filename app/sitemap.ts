@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { projects } from "@/lib/data";
 
-const siteUrl = "https://davinyoga.dev";
+const siteUrl = "https://ridhodwiki.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const projectRoutes = projects.map((project) => ({

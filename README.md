@@ -1,4 +1,4 @@
-# Davin Yoga Ardiyansyah — Portfolio
+# Ridho Dwiki Zakaria — Portfolio
 
 Portfolio pribadi modern, premium, dan responsive dibangun dengan Next.js 14 (App Router), React, TypeScript, Tailwind CSS, dan Framer Motion.
 
@@ -52,7 +52,7 @@ Project ini sudah "deploy-ready" untuk [Vercel](https://vercel.com):
 | Thumbnail & screenshot project (saat ini placeholder SVG) | `public/images/projects/` |
 | Gambar sertifikat asli (saat ini placeholder SVG) | `public/images/certificates/` |
 | Domain untuk SEO (`metadataBase`, sitemap, robots) | `app/layout.tsx`, `app/sitemap.ts`, `app/robots.ts` |
-| Form contact (saat ini simulasi, belum terhubung ke backend/email) | `components/sections/Contact.tsx` — hubungkan ke API route, Formspree, atau EmailJS |
+| API key Resend untuk form contact | `.env.local` → `RESEND_API_KEY` (sudah terhubung via `app/api/contact/route.ts`) |
 
 ## 📁 Struktur folder
 

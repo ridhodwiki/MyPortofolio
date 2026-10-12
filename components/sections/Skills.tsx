@@ -34,6 +34,7 @@ export default function Skills() {
               key={tab}
               type="button"
               onClick={() => setFilter(tab)}
+              aria-pressed={filter === tab}
               className={cn(
                 "rounded-full border px-4 py-2 text-xs font-medium transition-all duration-300 sm:text-sm",
                 filter === tab

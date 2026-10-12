@@ -30,7 +30,7 @@ export default function Timeline() {
         <SectionHeading
           eyebrow="My path so far"
           title="Journey Timeline"
-          description="Perjalanan pendidikan dan pengalaman kerja yang membentuk kemampuan saya saat ini."
+          description="Perjalanan pendidikan dan yang membentuk kemampuan saya saat ini."
         />
 
         <div ref={containerRef} className="relative mx-auto max-w-3xl">

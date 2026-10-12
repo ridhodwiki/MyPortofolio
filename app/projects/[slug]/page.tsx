@@ -8,7 +8,9 @@ interface ProjectPageProps {
 }
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return projects
+    .filter((project) => !!project.detail)
+    .map((project) => ({ slug: project.slug }));
 }
 
 export function generateMetadata({ params }: ProjectPageProps): Metadata {
@@ -28,7 +30,7 @@ export function generateMetadata({ params }: ProjectPageProps): Metadata {
 
 export default function ProjectPage({ params }: ProjectPageProps) {
   const project = projects.find((p) => p.slug === params.slug);
-  if (!project) notFound();
+  if (!project || !project.detail) notFound();
 
-  return <ProjectDetailView project={project} />;
+  return <ProjectDetailView project={project as Parameters<typeof ProjectDetailView>[0]["project"]} />;
 }

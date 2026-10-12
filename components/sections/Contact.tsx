@@ -4,28 +4,59 @@ import { useState, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { Mail, Github, Linkedin, Send, CheckCircle2 } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
+import InstagramIcon from "@/components/ui/InstagramIcon";
 import { profile } from "@/lib/data";
 import { fadeUp, staggerContainer } from "@/lib/utils";
 
-type Status = "idle" | "loading" | "success";
+type Status = "idle" | "loading" | "success" | "error";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
   const [focused, setFocused] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
-    setTimeout(() => {
-      setStatus("success");
+    setErrorMessage("");
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("visitor-fullname") as string,
+      email: formData.get("visitor-emailaddr") as string,
+      message: formData.get("message") as string,
+    };
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        (e.target as HTMLFormElement).reset();
+        setTimeout(() => setStatus("idle"), 2500);
+      } else {
+        setStatus("error");
+        setErrorMessage("Gagal mengirim pesan. Coba lagi.");
+        setTimeout(() => setStatus("idle"), 2500);
+      }
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage("Terjadi kesalahan. Coba lagi.");
       setTimeout(() => setStatus("idle"), 2500);
-    }, 1400);
+    }
   };
 
   const contactLinks = [
     { icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-    { icon: Github, label: "GitHub", value: "@DexVanScientia", href: profile.github },
-    { icon: Linkedin, label: "LinkedIn", value: "Davin Yoga Ardiyansyah", href: profile.linkedin },
+    { icon: Github, label: "GitHub", value: "@ridhodwiki", href: profile.github },
+    { icon: Linkedin, label: "LinkedIn", value: "Ridho Dwiki Zakaria", href: profile.linkedin },
+    { icon: InstagramIcon, label: "Instagram", value: "@ridho.dwikiii", href: "https://instagram.com/ridho.dwikiii" },
   ];
 
   const fields = [
@@ -177,7 +208,21 @@ export default function Contact() {
                   Message Sent
                 </>
               )}
+              {status === "error" && (
+                <>
+                  <Send size={16} />
+                  Try Again
+                </>
+              )}
             </motion.button>
+            {status === "error" && (
+              <motion.p
+                variants={fadeUp}
+                className="text-sm text-red-400/80"
+              >
+                {errorMessage}
+              </motion.p>
+            )}
           </motion.form>
         </div>
       </div>

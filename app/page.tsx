@@ -8,8 +8,10 @@ import Timeline from "@/components/sections/Timeline";
 import Certificates from "@/components/sections/Certificates";
 import Contact from "@/components/sections/Contact";
 
+import { profile } from "@/lib/data";
+
 export const metadata: Metadata = {
-  title: "Davin Yoga Ardiyansyah — Information Systems Student & Developer",
+  title: `${profile.name} — Informatics Engineering Student & Developer`,
 };
 
 export default function HomePage() {
