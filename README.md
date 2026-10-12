@@ -1,4 +1,4 @@
-# Ridho Dwiki Zakaria — Portfolio
+# Ridho Dwiki Zakaria — Portofolio
 
 Portfolio pribadi modern, premium, dan responsive dibangun dengan Next.js 14 (App Router), React, TypeScript, Tailwind CSS, dan Framer Motion.
 
