@@ -15,6 +15,8 @@ import {
 import SectionHeading from "@/components/ui/SectionHeading";
 import { profile } from "@/lib/data";
 import { fadeUp, staggerContainer } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
+import { t } from "@/lib/i18n";
 
 const interestIcons: Record<string, React.ElementType> = {
   "Software Development": Code,
@@ -26,13 +28,15 @@ const interestIcons: Record<string, React.ElementType> = {
 };
 
 export default function About() {
+  const { locale } = useLanguage();
+
   return (
     <section id="about" className="section-padding relative">
       <div className="section-container">
         <SectionHeading
           eyebrow="Get to know me"
-          title="About Me"
-          description="Sedikit cerita tentang latar belakang dan minat saya di dunia teknologi."
+          title={t(locale, "about.title")}
+          description={t(locale, "about.description")}
         />
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-16">
@@ -47,7 +51,7 @@ export default function About() {
               variants={fadeUp}
               className="text-base leading-relaxed text-text-secondary sm:text-lg"
             >
-              {profile.aboutDescription}
+              {t(locale, "about.bio")}
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-8 space-y-4">
@@ -56,11 +60,11 @@ export default function About() {
                   <GraduationCap size={20} />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">
-                    {profile.university}
+                  <p className="text-sm font-semibold" style={{ color: "var(--color-text)" }}>
+                    {t(locale, "about.university")}
                   </p>
                   <p className="text-xs text-text-secondary">
-                    Infomatics Engineering &middot; {profile.start}
+                    {t(locale, "about.eduDegree")}
                   </p>
                 </div>
               </div>
@@ -70,10 +74,10 @@ export default function About() {
                   <MapPin size={20} />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">
-                    {profile.background}
+                  <p className="text-sm font-semibold" style={{ color: "var(--color-text)" }}>
+                    {t(locale, "about.background")}
                   </p>
-                  <p className="text-xs text-text-secondary">{profile.major}</p>
+                  <p className="text-xs text-text-secondary">{t(locale, "about.eduMajor")}</p>
                 </div>
               </div>
             </motion.div>
@@ -88,8 +92,8 @@ export default function About() {
           >
             <motion.div variants={fadeUp} className="mb-4 flex items-center gap-2">
               <Sparkles size={16} className="text-accent" />
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
-                Interests
+              <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ color: "var(--color-text)" }}>
+                {t(locale, "about.interests")}
               </h3>
             </motion.div>
 

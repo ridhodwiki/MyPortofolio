@@ -55,7 +55,8 @@ export default function CertificateModal({
               <X size={16} />
             </button>
 
-            <div className="relative aspect-[4/3] w-full bg-white/[0.03]">
+            {/* White plate behind certificate so dark-text artwork stays readable in both themes */}
+            <div className="relative aspect-[4/3] w-full bg-white">
               <Image
                 src={certificate.image}
                 alt={certificate.name}
@@ -72,20 +73,29 @@ export default function CertificateModal({
                   {certificate.year}
                 </span>
               </div>
-              <h3 id="certificate-title" className="mt-2 text-xl font-bold text-white">
+              <h3
+                id="certificate-title"
+                className="mt-2 text-xl font-bold"
+                style={{ color: "var(--color-text)" }}
+              >
                 {certificate.name}
               </h3>
               <p className="mt-1 text-sm font-medium text-secondary">
                 {certificate.institution}
               </p>
-              <p className="mt-3 text-sm leading-relaxed text-text-secondary">
+              <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
                 {certificate.description}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {certificate.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] text-text-secondary"
+                    className="rounded-full border px-2.5 py-1 text-[11px]"
+                    style={{
+                      color: "var(--color-text-secondary)",
+                      borderColor: "var(--color-border)",
+                      backgroundColor: "var(--color-glass-bg)",
+                    }}
                   >
                     {skill}
                   </span>

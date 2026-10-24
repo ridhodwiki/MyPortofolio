@@ -4,9 +4,12 @@ import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, ArrowUp } from "lucide-react";
 import { profile } from "@/lib/data";
 import InstagramIcon from "@/components/ui/InstagramIcon";
+import { useLanguage } from "@/context/LanguageContext";
+import { t } from "@/lib/i18n";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { locale } = useLanguage();
 
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -23,8 +26,8 @@ export default function Footer() {
     <footer className="relative border-t border-white/[0.06]">
       <div className="section-container flex flex-col items-center gap-6 py-10 sm:flex-row sm:justify-between">
         <p className="text-sm text-text-secondary">
-          © {year} {profile.name}. All rights reserved.
-          <span className="ml-2 text-[10px] text-text-secondary/40">build v8</span>
+          © {year} {profile.name}. {t(locale, "footer.copyright")}
+          <span className="ml-2 text-[10px] text-text-secondary/40">{t(locale, "footer.build")}</span>
         </p>
 
         <div className="flex items-center gap-3">

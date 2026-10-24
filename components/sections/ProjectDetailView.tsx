@@ -18,16 +18,20 @@ import {
 } from "lucide-react";
 import { Project } from "@/lib/types";
 import { fadeUp, staggerContainer } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
+import { t } from "@/lib/i18n";
 
 type ProjectWithDetail = Project & { detail: NonNullable<Project["detail"]> };
 
 const blocks = [
-  { key: "overview", label: "Overview", icon: Layers },
-  { key: "problem", label: "Problem", icon: Target },
-  { key: "solution", label: "Solution", icon: Lightbulb },
+  { key: "overview", label: "project.overview", icon: Layers },
+  { key: "problem", label: "project.problem", icon: Target },
+  { key: "solution", label: "project.solution", icon: Lightbulb },
 ] as const;
 
 export default function ProjectDetailView({ project }: { project: ProjectWithDetail }) {
+  const { locale } = useLanguage();
+
   return (
     <article className="relative pb-24 pt-32 sm:pt-40">
       <div className="section-container">
@@ -37,7 +41,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
             className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary transition-colors hover:text-white"
           >
             <ArrowLeft size={16} />
-            Back to Projects
+            {t(locale, "project.backToProjects")}
           </Link>
         </motion.div>
 
@@ -67,13 +71,13 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
             {project.github && (
               <a href={project.github} target="_blank" rel="noreferrer" className="btn-ghost">
                 <Github size={16} />
-                View Code
+                {t(locale, "project.viewCode")}
               </a>
             )}
             {project.demo && (
               <a href={project.demo} target="_blank" rel="noreferrer" className="btn-primary">
                 <ExternalLink size={16} />
-                Live Demo
+                {t(locale, "project.liveDemo")}
               </a>
             )}
           </motion.div>
@@ -109,7 +113,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
               <div className="flex items-center gap-2 text-primary">
                 <Icon size={18} />
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-white">
-                  {label}
+                  {t(locale, label)}
                 </h2>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-text-secondary">
@@ -130,7 +134,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
             <motion.div variants={fadeUp} className="mb-5 flex items-center gap-2 text-secondary">
               <ListChecks size={18} />
               <h2 className="text-sm font-semibold uppercase tracking-wider text-white">
-                Features
+                {t(locale, "project.features")}
               </h2>
             </motion.div>
             <ul className="space-y-3">
@@ -151,7 +155,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
             <motion.div variants={fadeUp} className="mb-5 flex items-center gap-2 text-accent">
               <Wrench size={18} />
               <h2 className="text-sm font-semibold uppercase tracking-wider text-white">
-                Technology Stack
+                {t(locale, "project.stack")}
               </h2>
             </motion.div>
             <motion.div variants={fadeUp} className="flex flex-wrap gap-2">
@@ -168,7 +172,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
             <motion.div variants={fadeUp} className="mb-5 mt-10 flex items-center gap-2 text-primary">
               <GitBranch size={18} />
               <h2 className="text-sm font-semibold uppercase tracking-wider text-white">
-                Development Process
+                {t(locale, "project.process")}
               </h2>
             </motion.div>
             <ol className="space-y-3">
@@ -198,7 +202,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
           <div className="flex items-center gap-2 text-[#FF9F43]">
             <AlertTriangle size={18} />
             <h2 className="text-sm font-semibold uppercase tracking-wider text-white">
-              Challenges
+              {t(locale, "project.challenges")}
             </h2>
           </div>
           <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -221,7 +225,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
             variants={fadeUp}
             className="mb-6 text-sm font-semibold uppercase tracking-wider text-white"
           >
-            Screenshot Gallery
+            {t(locale, "project.result")}
           </motion.h2>
           <motion.div
             initial="hidden"
@@ -260,7 +264,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
             <Trophy size={20} />
           </div>
           <h2 className="mt-4 text-sm font-semibold uppercase tracking-wider text-white">
-            Result
+            {t(locale, "project.result")}
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-300 sm:text-base">
             {project.detail.result}

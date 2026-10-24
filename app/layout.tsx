@@ -6,6 +6,7 @@ import ScrollProgress from "@/components/layout/ScrollProgress";
 import CustomCursor from "@/components/layout/CustomCursor";
 import PageTransition from "@/components/layout/PageTransition";
 import { profile } from "@/lib/data";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const siteUrl = "https://ridhodwiki.dev";
 
@@ -105,13 +106,15 @@ export default function RootLayout({
           aria-hidden
           className="pointer-events-none fixed inset-0 -z-10 bg-radial-glow"
         />
-        <CustomCursor />
-        <ScrollProgress />
-        <Navbar />
-        <PageTransition>
-          <main id="main-content">{children}</main>
-        </PageTransition>
-        <Footer />
+        <LanguageProvider>
+          <CustomCursor />
+          <ScrollProgress />
+          <Navbar />
+          <PageTransition>
+            <main id="main-content">{children}</main>
+          </PageTransition>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

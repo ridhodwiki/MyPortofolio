@@ -8,6 +8,8 @@ import InstagramIcon from "@/components/ui/InstagramIcon";
 import LanyardCard from "@/components/ui/LanyardCard";
 import { profile } from "@/lib/data";
 import { scrollToSection, EASE } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
+import { t } from "@/lib/i18n";
 
 // Local, faster entrance timing so the whole sequence finishes before the
 // loading screen begins fading out (~1.1s), avoiding the two transitions
@@ -22,6 +24,8 @@ const heroItem = {
 };
 
 export default function Hero() {
+  const { locale } = useLanguage();
+
   return (
     <section
       id="home"
@@ -38,7 +42,7 @@ export default function Hero() {
             className="w-full max-w-xl"
           >
             <motion.span variants={heroItem} className="eyebrow mb-5">
-              Welcome to my portfolio
+              {t(locale, "hero.welcome")}
             </motion.span>
 
             <motion.h1
@@ -61,7 +65,7 @@ export default function Hero() {
               className="mt-5 text-sm leading-relaxed sm:text-base"
               style={{ color: "var(--color-text)", opacity: 1 }}
             >
-              {profile.heroDescription}
+              {t(locale, "hero.description")}
             </motion.p>
 
             <motion.div
@@ -76,7 +80,7 @@ export default function Hero() {
               className="btn-primary"
             >
               <Download size={16} />
-              Download CV
+              {t(locale, "hero.downloadCV")}
             </motion.a>
 
             <motion.a
@@ -88,7 +92,7 @@ export default function Hero() {
               className="btn-ghost"
             >
               <Github size={16} />
-              GitHub
+              {t(locale, "hero.github")}
             </motion.a>
 
             <motion.a
@@ -100,7 +104,7 @@ export default function Hero() {
               className="btn-ghost"
             >
               <Linkedin size={16} />
-              LinkedIn
+              {t(locale, "hero.linkedin")}
             </motion.a>
 
             <motion.a
@@ -112,7 +116,7 @@ export default function Hero() {
               className="btn-ghost"
             >
               <InstagramIcon size={16} />
-              Instagram
+              {t(locale, "hero.instagram")}
             </motion.a>
 
             <motion.button
@@ -123,7 +127,7 @@ export default function Hero() {
               className="btn-ghost"
             >
               <Mail size={16} />
-              Contact Me
+              {t(locale, "hero.contactMe")}
             </motion.button>
           </motion.div>
         </motion.div>

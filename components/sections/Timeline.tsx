@@ -6,6 +6,8 @@ import { Briefcase, GraduationCap, Building2 } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { timeline } from "@/lib/data";
 import { fadeUp } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
+import { t } from "@/lib/i18n";
 
 const icons = {
   graduation: GraduationCap,
@@ -14,6 +16,7 @@ const icons = {
 };
 
 export default function Timeline() {
+  const { locale } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -29,8 +32,8 @@ export default function Timeline() {
       <div className="section-container">
         <SectionHeading
           eyebrow="My path so far"
-          title="Journey Timeline"
-          description="Perjalanan pendidikan dan yang membentuk kemampuan saya saat ini."
+          title={t(locale, "timeline.title")}
+          description={t(locale, "timeline.description")}
         />
 
         <div ref={containerRef} className="relative mx-auto max-w-3xl">

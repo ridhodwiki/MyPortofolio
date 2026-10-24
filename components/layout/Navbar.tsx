@@ -2,17 +2,26 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks } from "@/lib/data";
 import { scrollToSection, cn } from "@/lib/utils";
 import ThemeToggle from "@/components/layout/ThemeToggle";
+import { useLanguage } from "@/context/LanguageContext";
+import { t, type TranslationKey } from "@/lib/i18n";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("#home");
   const pathname = usePathname();
+  const router = useRouter();
+  const { locale, setLocale } = useLanguage();
+
+  const navLabels = navLinks.map((l) => ({
+    ...l,
+    label: t(locale, `nav.${l.href.replace("#", "")}` as TranslationKey),
+  }));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -109,7 +118,7 @@ export default function Navbar() {
           </a>
 
           <ul className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
+            {navLabels.map((link) => {
               const isActive = active === link.href;
               return (
                 <li key={link.href} className="relative">
@@ -141,6 +150,14 @@ export default function Navbar() {
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setLocale(locale === "id" ? "en" : "id")}
+              aria-label={locale === "id" ? "Switch to English" : "Switch to Indonesian"}
+              className="glass flex h-9 w-9 items-center justify-center rounded-full text-text-secondary transition-colors hover:text-white"
+            >
+              {locale === "id" ? "EN" : "ID"}
+            </button>
             <button
               type="button"
               onClick={() => setOpen((o) => !o)}
@@ -186,7 +203,7 @@ export default function Navbar() {
               className="md:hidden overflow-hidden"
             >
               <ul className="mt-2 glass rounded-2xl p-2">
-                {navLinks.map((link, i) => (
+                {navLabels.map((link, i) => (
                   <motion.li
                     key={link.href}
                     initial={{ opacity: 0, x: -12 }}

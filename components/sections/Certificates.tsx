@@ -9,17 +9,20 @@ import CertificateModal from "@/components/ui/CertificateModal";
 import { certificates } from "@/lib/data";
 import { Certificate } from "@/lib/types";
 import { fadeUp, staggerContainer } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
+import { t } from "@/lib/i18n";
 
 export default function Certificates() {
   const [active, setActive] = useState<Certificate | null>(null);
+  const { locale } = useLanguage();
 
   return (
     <section id="certificates" className="section-padding relative">
       <div className="section-container">
         <SectionHeading
           eyebrow="Proof of learning"
-          title="Certificates"
-          description="Sertifikat pembelajaran yang telah saya selesaikan dari berbagai platform dan institusi."
+          title={t(locale, "certificates.title")}
+          description={t(locale, "certificates.description")}
         />
 
         <motion.div
@@ -38,7 +41,7 @@ export default function Certificates() {
               onClick={() => setActive(cert)}
               className="glass-card group relative flex flex-col overflow-hidden p-0 text-left transition-shadow duration-500 hover:shadow-glow"
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-white/[0.03]">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
                 <Image
                   src={cert.image}
                   alt={cert.name}
@@ -60,7 +63,7 @@ export default function Certificates() {
                     {cert.year}
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm font-bold text-white sm:text-base">
+                <h3 className="mt-2 text-sm font-bold sm:text-base" style={{ color: "var(--color-text)" }}>
                   {cert.name}
                 </h3>
                 <p className="mt-1 text-xs font-medium text-secondary">

@@ -6,11 +6,14 @@ import { Code2 } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { skillCategories, skills } from "@/lib/data";
 import { cn, fadeUp, staggerContainer } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
+import { t } from "@/lib/i18n";
 
 type Filter = "All" | (typeof skillCategories)[number];
 
 export default function Skills() {
   const [filter, setFilter] = useState<Filter>("All");
+  const { locale } = useLanguage();
 
   const filtered = useMemo(
     () => (filter === "All" ? skills : skills.filter((s) => s.category === filter)),
@@ -24,8 +27,8 @@ export default function Skills() {
       <div className="section-container">
         <SectionHeading
           eyebrow="What I work with"
-          title="Skills & Technologies"
-          description="Kumpulan bahasa, framework, tools, dan bidang yang saya pelajari dan gunakan."
+          title={t(locale, "skills.title")}
+          description={t(locale, "skills.description")}
         />
 
         <div className="mb-10 flex flex-wrap justify-center gap-2">
@@ -42,7 +45,7 @@ export default function Skills() {
                   : "border-white/10 bg-white/[0.02] text-text-secondary hover:border-white/25 hover:text-white"
               )}
             >
-              {tab}
+              {tab === "All" ? t(locale, "skills.filterAll") : tab}
             </button>
           ))}
         </div>

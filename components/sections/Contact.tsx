@@ -7,6 +7,8 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { profile } from "@/lib/data";
 import { fadeUp, staggerContainer } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
+import { t } from "@/lib/i18n";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -14,6 +16,8 @@ export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
   const [focused, setFocused] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { locale } = useLanguage();
+
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,8 +64,8 @@ export default function Contact() {
   ];
 
   const fields = [
-    { id: "visitor-fullname", label: "Name", type: "text", placeholder: "Nama lengkap kamu" },
-    { id: "visitor-emailaddr", label: "Email", type: "email", placeholder: "email@contoh.com" },
+    { id: "visitor-fullname", label: t(locale, "contact.nameLabel"), type: "text", placeholder: t(locale, "contact.namePlaceholder") },
+    { id: "visitor-emailaddr", label: t(locale, "contact.emailLabel"), type: "email", placeholder: t(locale, "contact.emailPlaceholder") },
   ];
 
   return (
@@ -69,8 +73,8 @@ export default function Contact() {
       <div className="section-container">
         <SectionHeading
           eyebrow="Let's connect"
-          title="Contact Me"
-          description="Punya project, pertanyaan, atau ingin berkolaborasi? Jangan ragu untuk menghubungi saya."
+          title={t(locale, "contact.title")}
+          description={t(locale, "contact.description")}
         />
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-5 lg:gap-16">
@@ -153,14 +157,14 @@ export default function Contact() {
                 htmlFor="message"
                 className="mb-2 block text-xs font-medium text-text-secondary"
               >
-                Message
+                {t(locale, "contact.messageLabel")}
               </label>
               <motion.textarea
                 id="message"
                 name="message"
                 required
                 rows={5}
-                placeholder="Ceritakan tentang project atau pesanmu..."
+                placeholder={t(locale, "contact.messagePlaceholder")}
                 onFocus={() => setFocused("message")}
                 onBlur={() => setFocused(null)}
                 animate={{
@@ -189,7 +193,7 @@ export default function Contact() {
               {status === "idle" && (
                 <>
                   <Send size={16} />
-                  Send Message
+                  {t(locale, "contact.sendMessage")}
                 </>
               )}
               {status === "loading" && (
@@ -199,19 +203,19 @@ export default function Contact() {
                     transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
                     className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white"
                   />
-                  Sending...
+                  {t(locale, "contact.sending")}
                 </>
               )}
               {status === "success" && (
                 <>
                   <CheckCircle2 size={16} />
-                  Message Sent
+                  {t(locale, "contact.messageSent")}
                 </>
               )}
               {status === "error" && (
                 <>
                   <Send size={16} />
-                  Try Again
+                  {t(locale, "contact.tryAgain")}
                 </>
               )}
             </motion.button>
