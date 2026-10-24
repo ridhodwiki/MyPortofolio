@@ -187,15 +187,24 @@ export const certificates: Certificate[] = [
   },
   {
     id: "cert-3",
-    name: "Belajar Dasar AI",
-    institution: "Dicoding",
-    year: "2025",
+    name: "Next-Gen Web Engineering: Build Smart Company Profile with AI Workflow",
+    institution: "Himpunan Mahasiswa Informatika Universitas PGRI Semarang",
+    year: "2026",
     description:
-      "Memahami konsep dasar kecerdasan buatan, machine learning, dan penerapannya di berbagai industri.",
-    skills: ["Artificial Intelligence Basic", "AI"],
-    image: "/images/16.png",
+      "Menyelesaikan pelatihan pengembangan web untuk membangun website company profile interaktif dengan integrasi workflow AI.",
+    skills: ["Web Development", "UI/UX Design", "Frontend Development", "Backend Development", "AI Integration"],
+    image: "/images/Sertifikat Ridho Dwiki Zakaria-1.webp",
   },
-  
+  {
+    id: "cert-4",
+    name: "Event Online - Cyber Security",
+    institution: "Dibimbing.id",
+    year: "2026",
+    description:
+      "Berpartisipasi aktif dalam sesi webinar online yang membahas konsep dasar dan prinsip utama Cyber Security.",
+    skills: ["Cyber Security", "Information Security", "Network Security"],
+    image: "/images/Ridho Dwiki Zakaria - Dibimbing Sertifikat.webp",
+  }
 ];
 
 export const navLinks = [
