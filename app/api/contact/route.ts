@@ -1,7 +1,9 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Escape HTML agar input user tidak bisa menyisipkan markup ke email
+const escapeHtml = (s: string) =>
+  s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
 // Email tujuan — ganti dengan email asli kamu setelah verifikasi domain di Resend
 const OWNER_EMAIL = "ridhodwiki768@gmail.com";
@@ -35,6 +37,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Dibuat saat request (bukan saat build) agar build tidak gagal tanpa env var
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.error("[Contact API error] RESEND_API_KEY belum di-set");
+      return NextResponse.json(
+        { error: "Server belum dikonfigurasi." },
+        { status: 500 }
+      );
+    }
+    const resend = new Resend(apiKey);
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeMessage = escapeHtml(message);
+
     const { data, error } = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>", // Ganti setelah verifikasi domain
       to: [OWNER_EMAIL],
@@ -49,18 +65,18 @@ export async function POST(req: NextRequest) {
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
                 <td style="padding: 10px 0; color: #B5B5B5; font-size: 13px; width: 80px;">Nama</td>
-                <td style="padding: 10px 0; font-size: 14px; font-weight: 600;">${name}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600;">${safeName}</td>
               </tr>
               <tr>
                 <td style="padding: 10px 0; color: #B5B5B5; font-size: 13px;">Email</td>
                 <td style="padding: 10px 0; font-size: 14px;">
-                  <a href="mailto:${email}" style="color: #6C63FF; text-decoration: none;">${email}</a>
+                  <a href="mailto:${safeEmail}" style="color: #6C63FF; text-decoration: none;">${safeEmail}</a>
                 </td>
               </tr>
             </table>
             <hr style="border: none; border-top: 1px solid #ffffff18; margin: 20px 0;" />
             <p style="color: #B5B5B5; font-size: 13px; margin: 0 0 10px;">Pesan:</p>
-            <p style="font-size: 14px; line-height: 1.7; margin: 0; white-space: pre-wrap;">${message}</p>
+            <p style="font-size: 14px; line-height: 1.7; margin: 0; white-space: pre-wrap;">${safeMessage}</p>
           </div>
           <div style="padding: 16px 32px; background: #ffffff08; font-size: 12px; color: #B5B5B5;">
             Dikirim dari form contact ridhodwiki.dev
