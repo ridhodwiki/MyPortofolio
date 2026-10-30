@@ -204,6 +204,26 @@ export const certificates: Certificate[] = [
       "Berpartisipasi aktif dalam sesi webinar online yang membahas konsep dasar dan prinsip utama Cyber Security.",
     skills: ["Cyber Security", "Information Security", "Network Security"],
     image: "/images/Ridho Dwiki Zakaria - Dibimbing Sertifikat.webp",
+  },
+  {
+    id: "cert-5",
+    name: "Maximize Productivity With AI Tools",
+    institution: "Google (via Coursera)",
+    year: "2026",
+    description:
+      "Menyelesaikan kursus untuk memaksimalkan produktivitas kerja dengan memanfaatkan berbagai tools berbasis kecerdasan buatan.",
+    skills: ["Artificial Intelligence", "AI Tools", "Productivity", "Generative AI"],
+    image: "/images/Coursera 4SNADBCYIIBH.webp"
+  },
+  {
+    id: "cert-6",
+    name: "Introduction to AI",
+    institution: "Google (via Coursera)",
+    year: "2026",
+    description:
+      "Menyelesaikan kursus untuk memahami konsep dasar kecerdasan buatan, penerapannya, serta prinsip kerja AI modern.",
+    skills: ["Artificial Intelligence", "Machine Learning Fundamentals", "AI Applications"],
+    image: "/images/Coursera SFUW524KVQWO.webp"
   }
 ];
 

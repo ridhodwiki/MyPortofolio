@@ -27,7 +27,7 @@ export default function LanyardCard() {
         className="absolute inset-6 -z-10 rounded-[3rem] bg-[linear-gradient(135deg,rgba(108,99,255,0.3),rgba(0,229,255,0.2),rgba(255,77,157,0.2))] blur-3xl"
       />
 
-      <LanyardScene photoSrc="/images/1.png" />
+      <LanyardScene photoSrc="/images/ridho.webp" />
     </motion.div>
   );
 }
