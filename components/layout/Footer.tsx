@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Github, Linkedin, Mail, ArrowUp } from "lucide-react";
 import { profile } from "@/lib/data";
 import InstagramIcon from "@/components/ui/InstagramIcon";

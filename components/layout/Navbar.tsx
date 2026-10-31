@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks } from "@/lib/data";
@@ -83,8 +83,10 @@ export default function Navbar() {
       window.location.href = `/${href}`;
       return;
     }
-    scrollToSection(href);
     setOpen(false);
+    // Defer past the menu collapse: a scroll started in the same tick is
+    // cancelled when the dropdown unmounts, leaving the page where it was.
+    setTimeout(() => scrollToSection(href), 0);
   }, [pathname]);
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Mail, Github, Linkedin, Send, CheckCircle2 } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import InstagramIcon from "@/components/ui/InstagramIcon";

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ProjectCard from "@/components/ui/ProjectCard";
 import { projects } from "@/lib/data";

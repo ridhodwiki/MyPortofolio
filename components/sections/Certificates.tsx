@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Award, ZoomIn } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CertificateModal from "@/components/ui/CertificateModal";

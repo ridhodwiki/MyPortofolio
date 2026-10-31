@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Github, ExternalLink } from "lucide-react";
 import { Project } from "@/lib/types";
 import { fadeUp } from "@/lib/utils";

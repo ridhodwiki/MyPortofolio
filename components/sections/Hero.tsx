@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Download, Github, Linkedin, Mail } from "lucide-react";
 import { useState, useEffect } from "react";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Code2 } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { skillCategories, skills } from "@/lib/data";

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const LanyardScene = dynamic(() => import("@/components/ui/LanyardScene"), {
   ssr: false,
