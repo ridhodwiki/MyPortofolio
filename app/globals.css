@@ -104,6 +104,8 @@ body::-webkit-scrollbar {
 
   .section-padding {
     @apply pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28;
+    /* Keep the fixed navbar from covering the section heading after a jump. */
+    scroll-margin-top: 6rem;
   }
 
   .gradient-text {
