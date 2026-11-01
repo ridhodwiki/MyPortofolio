@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import LoadingScreen from "@/components/layout/LoadingScreen";
+import HeroBackground from "@/components/sections/HeroBackground";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Skills from "@/components/sections/Skills";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <LoadingScreen />
+      <HeroBackground />
       <Hero />
       <About />
       <Skills />
