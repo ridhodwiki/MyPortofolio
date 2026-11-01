@@ -8,6 +8,7 @@ export type TranslationKey =
   | "nav.journey"
   | "nav.certificates"
   | "nav.contact"
+  | "welcome.loading"
   | "hero.welcome"
   | "hero.title"
   | "hero.role"
@@ -83,6 +84,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "nav.journey": "Experience",
     "nav.certificates": "Certificates",
     "nav.contact": "Contact",
+    "welcome.loading": "Memuat halaman",
     "hero.welcome": "whoami",
     "hero.title": "Hi, I'm",
     "hero.role": "Mahasiswa Teknik Informatika · UPGRIS",
@@ -166,6 +168,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "nav.journey": "Experience",
     "nav.certificates": "Certificates",
     "nav.contact": "Contact",
+    "welcome.loading": "Loading page",
     "hero.welcome": "whoami",
     "hero.title": "Hi, I'm",
     "hero.role": "Informatics Engineering Student · UPGRIS",

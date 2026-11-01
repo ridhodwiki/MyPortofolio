@@ -6,14 +6,14 @@ import { useState, useEffect } from "react";
 
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import LanyardCard from "@/components/ui/LanyardCard";
+import { READY_EVENT } from "@/components/layout/WelcomeScreen";
 import { profile } from "@/lib/data";
 import { scrollToSection, EASE } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { t } from "@/lib/i18n";
 
-// Local, faster entrance timing so the whole sequence finishes before the
-// loading screen begins fading out (~1.1s), avoiding the two transitions
-// visually overlapping and washing out the later elements.
+// Staggered entrance plays only after the welcome screen reports it is done,
+// so both transitions never overlap.
 const heroContainer = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1 } },
@@ -25,6 +25,19 @@ const heroItem = {
 
 export default function Hero() {
   const { locale } = useLanguage();
+  const [entered, setEntered] = useState(false);
+
+  useEffect(() => {
+    if (document.documentElement.dataset.appReady === "true") {
+      setEntered(true);
+      return;
+    }
+    const onReady = () => setEntered(true);
+    window.addEventListener(READY_EVENT, onReady);
+    return () => window.removeEventListener(READY_EVENT, onReady);
+  }, []);
+
+  const entrance = entered ? "show" : "hidden";
 
   return (
     <section
@@ -34,8 +47,8 @@ export default function Hero() {
     >
       <div className="relative flex flex-col lg:grid lg:grid-cols-2 min-h-screen items-center gap-4 lg:gap-8 overflow-visible lg:overflow-hidden">
         {/* Text content - left side desktop, top/centered mobile; all buttons on every size */}
-        <motion.div className="flex flex-col justify-center items-center text-center relative z-10 w-full px-4 pt-20 pb-4 lg:items-start lg:text-left lg:pl-16 lg:pr-0 lg:pt-0 lg:translate-x-16" variants={heroContainer} initial="hidden" animate="show">
-          <motion.div className="w-full max-w-xl" variants={heroContainer} initial="hidden" animate="show">
+        <motion.div className="flex flex-col justify-center items-center text-center relative z-10 w-full px-4 pt-20 pb-4 lg:items-start lg:text-left lg:pl-16 lg:pr-0 lg:pt-0 lg:translate-x-16" variants={heroContainer} initial="hidden" animate={entrance}>
+          <motion.div className="w-full max-w-xl" variants={heroContainer} initial="hidden" animate={entrance}>
             <motion.span variants={heroItem} className="eyebrow mb-5">
               {t(locale, "hero.welcome")}
             </motion.span>

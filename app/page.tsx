@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import WelcomeScreen from "@/components/layout/WelcomeScreen";
 import HeroBackground from "@/components/sections/HeroBackground";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <WelcomeScreen />
       <HeroBackground />
       <Hero />
       <About />
