@@ -9,6 +9,7 @@ import { scrollToSection, cn } from "@/lib/utils";
 import ThemeToggle from "@/components/layout/ThemeToggle";
 import { useLanguage } from "@/context/LanguageContext";
 import { t, type TranslationKey } from "@/lib/i18n";
+import { READY_EVENT } from "@/components/layout/WelcomeScreen";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -16,6 +17,21 @@ export default function Navbar() {
   const [active, setActive] = useState("#home");
   const pathname = usePathname();
   const { locale, setLocale } = useLanguage();
+
+  // Navbar stays hidden until the welcome screen reports ready; other routes
+  // have no welcome screen, so they start visible.
+  const [entered, setEntered] = useState(pathname !== "/");
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+    if (document.documentElement.dataset.appReady === "true") {
+      setEntered(true);
+      return;
+    }
+    const onReady = () => setEntered(true);
+    window.addEventListener(READY_EVENT, onReady);
+    return () => window.removeEventListener(READY_EVENT, onReady);
+  }, [pathname]);
 
   const navLabels = navLinks.map((l) => ({
     ...l,
@@ -91,7 +107,7 @@ export default function Navbar() {
   return (
     <motion.header
       initial={{ y: -32, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      animate={entered ? { y: 0, opacity: 1 } : { y: -32, opacity: 0 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
