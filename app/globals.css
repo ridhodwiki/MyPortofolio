@@ -3,27 +3,68 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #050816;
-  --color-surface: #0A0F24;
-  --color-primary: #6c63ff;
-  --color-secondary: #00e5ff;
-  --color-accent: #ff4d9d;
-  --color-text: #ffffff;
-  --color-text-secondary: #b5b5b5;
-  --color-border: rgba(255,255,255,0.08);
-  --color-glass-bg: rgba(255,255,255,0.04);
+  /* Color channels, consumed by Tailwind via rgb(var(--c-*) / <alpha>) */
+  --c-base: 11 16 32;
+  --c-surface: 20 26 46;
+  --c-primary: 108 140 255;
+  --c-primary-dim: 79 111 224;
+  --c-primary-glow: 169 190 255;
+  --c-secondary: 203 213 235;
+  --c-secondary-dim: 148 163 195;
+  --c-accent: 167 139 250;
+  --c-accent-dim: 124 92 224;
+  --c-text: 238 241 250;
+  --c-text-secondary: 178 188 210;
+  --c-text-muted: 125 136 162;
+  --c-line: 44 53 80;
+  --c-on-primary: 11 16 32;
+
+  /* Rainbow accent channels, one per section */
+  --c-violet: 167 139 250;
+  --c-blue: 96 165 250;
+  --c-cyan: 34 211 238;
+  --c-emerald: 52 211 153;
+  --c-amber: 251 191 36;
+  --c-rose: 251 113 133;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.22);
+
+  /* Legacy aliases still referenced from inline styles */
+  --color-bg: rgb(var(--c-base));
+  --color-surface: rgb(var(--c-surface));
+  --color-primary: rgb(var(--c-primary));
+  --color-secondary: rgb(var(--c-secondary));
+  --color-accent: rgb(var(--c-accent));
+  --color-text: rgb(var(--c-text));
+  --color-text-secondary: rgb(var(--c-text-secondary));
+  --color-border: rgb(var(--c-line));
+  --color-glass-bg: rgb(var(--c-surface));
 }
 
 .light {
-  --color-bg: #f0f2ff;
-  --color-surface: #ffffff;
-  --color-primary: #5a52e0;
-  --color-secondary: #00b8d4;
-  --color-accent: #e0357d;
-  --color-text: #0d0f1a;
-  --color-text-secondary: #4a4f6a;
-  --color-border: rgba(0,0,0,0.08);
-  --color-glass-bg: rgba(255,255,255,0.7);
+  --c-base: 250 250 248;
+  --c-surface: 255 255 255;
+  --c-primary: 48 86 211;
+  --c-primary-dim: 36 66 173;
+  --c-primary-glow: 99 131 240;
+  --c-secondary: 52 64 84;
+  --c-secondary-dim: 90 103 125;
+  --c-accent: 109 40 217;
+  --c-accent-dim: 91 33 182;
+  --c-text: 16 24 40;
+  --c-text-secondary: 71 84 103;
+  --c-text-muted: 122 134 153;
+  --c-line: 226 230 238;
+  --c-on-primary: 255 255 255;
+
+  --c-violet: 109 40 217;
+  --c-blue: 29 78 216;
+  --c-cyan: 14 116 144;
+  --c-emerald: 4 120 87;
+  --c-amber: 180 83 9;
+  --c-rose: 190 18 60;
+
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.06), 0 12px 32px rgba(16, 24, 40, 0.08);
 }
 
 * {
@@ -48,7 +89,7 @@ body {
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body::-webkit-scrollbar {
@@ -56,81 +97,96 @@ body::-webkit-scrollbar {
 }
 
 ::selection {
-  background-color: var(--color-primary);
-  color: #ffffff;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary);
-  background-image: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
-  background-clip: padding-box;
-  border: 3px solid transparent;
-  border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  border-width: 2px;
+  background-color: rgb(var(--c-primary));
+  color: #fff;
 }
 
 /* Accessible focus ring, always visible for keyboard users */
 :focus-visible {
-  outline: 2px solid var(--color-secondary);
+  outline: 2px solid rgb(var(--c-primary));
   outline-offset: 3px;
-  border-radius: 4px;
 }
 
 @layer components {
+  /* Kept as class names so existing markup keeps working; now a soft card. */
   .glass {
-    @apply backdrop-blur-xl border;
-    background-color: var(--color-glass-bg);
-    border-color: var(--color-border);
+    border: 1px solid rgb(var(--c-line));
+    background-color: rgb(var(--c-surface));
+    border-radius: 0.875rem;
   }
 
   .glass-card {
-    @apply glass rounded-2xl transition-all duration-500;
+    @apply glass transition-colors duration-200;
+    box-shadow: var(--shadow-card);
   }
 
   .section-container {
-    @apply mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10;
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-10;
   }
 
   .section-padding {
-    @apply pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28;
+    @apply border-t border-line pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28;
     /* Keep the fixed navbar from covering the section heading after a jump. */
-    scroll-margin-top: 6rem;
+    scroll-margin-top: 5rem;
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-[linear-gradient(90deg,#6C63FF,#00E5FF)];
+    background: linear-gradient(
+      90deg,
+      rgb(var(--c-violet)),
+      rgb(var(--c-blue)),
+      rgb(var(--c-cyan)),
+      rgb(var(--c-emerald)),
+      rgb(var(--c-amber)),
+      rgb(var(--c-rose))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Thin hue ramp used as a section divider; the only "rainbow" element. */
+  .rainbow-rule {
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      rgb(var(--c-violet)),
+      rgb(var(--c-blue)),
+      rgb(var(--c-cyan)),
+      rgb(var(--c-emerald)),
+      rgb(var(--c-amber)),
+      rgb(var(--c-rose))
+    );
   }
 
   .eyebrow {
-    @apply text-xs sm:text-sm tracking-[0.3em] uppercase font-medium;
-    color: var(--color-text-secondary);
+    @apply font-mono text-[11px] uppercase tracking-[0.24em];
+    color: rgb(var(--section-hue, var(--c-primary)));
+  }
+
+  .eyebrow::before {
+    content: "/ ";
+    opacity: 0.55;
   }
 
   .btn-primary {
-    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white bg-[linear-gradient(120deg,#6C63FF,#514AC7)] shadow-glow transition-transform duration-300 active:scale-95;
+    @apply relative inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-xs font-semibold transition-colors duration-200 active:translate-y-px;
+    color: rgb(var(--c-on-primary));
+    box-shadow: 0 6px 18px rgb(var(--c-primary) / 0.25);
+  }
+
+  .btn-primary:hover {
+    background-color: rgb(var(--c-primary-dim));
   }
 
   .btn-ghost {
-    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors duration-300 active:scale-95 backdrop-blur-md;
-    color: var(--color-text);
-    border: 1px solid var(--color-border);
-    background-color: var(--color-glass-bg);
+    @apply relative inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-surface px-5 py-2.5 text-xs font-semibold text-text transition-colors duration-200 active:translate-y-px;
   }
 
   .btn-ghost:hover {
-    border-color: var(--color-primary);
-    background-color: rgba(108, 99, 255, 0.08);
+    border-color: rgb(var(--c-primary));
+    color: rgb(var(--c-primary));
   }
 }
 
@@ -144,40 +200,3 @@ body::-webkit-scrollbar {
     scroll-behavior: auto !important;
   }
 }
-
-/* Light mode overrides */
-.light .bg-base\/40 {
-  background-color: rgba(240, 242, 255, 0.7);
-}
-
-.light [class*="text-white"] {
-  color: var(--color-text);
-}
-
-.light [class*="text-text-secondary"] {
-  color: var(--color-text-secondary);
-}
-
-.light [class*="bg-white/"] {
-  background-color: var(--color-glass-bg);
-}
-
-.light [class*="border-white/"] {
-  border-color: var(--color-border);
-}
-
-.light .shadow-glass {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-}
-
-/* Radial glow light mode */
-.light .bg-radial-glow {
-  background: radial-gradient(circle at center, rgba(108,99,255,0.08), transparent 70%);
-}
-
-.light .bg-grid-pattern {
-  background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
-}
-
-

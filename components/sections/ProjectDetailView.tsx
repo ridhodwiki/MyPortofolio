@@ -38,7 +38,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
         <motion.div initial="hidden" animate="show" variants={fadeUp}>
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-2 text-sm font-medium text-text-secondary transition-colors hover:text-white"
+            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-text-secondary transition-colors hover:text-primary"
           >
             <ArrowLeft size={16} />
             {t(locale, "project.backToProjects")}
@@ -88,7 +88,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7 }}
-          className="relative mt-12 aspect-video w-full overflow-hidden rounded-3xl border border-white/10"
+          className="relative mt-12 aspect-video w-full overflow-hidden rounded-2xl border border-line"
         >
           <Image
             src={project.thumbnail}
@@ -112,7 +112,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
             >
               <div className="flex items-center gap-2 text-primary">
                 <Icon size={18} />
-                <h2 className="text-sm font-semibold uppercase tracking-wider text-white">
+                <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-text">
                   {t(locale, label)}
                 </h2>
               </div>
@@ -133,7 +133,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
           <div>
             <motion.div variants={fadeUp} className="mb-5 flex items-center gap-2 text-secondary">
               <ListChecks size={18} />
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-white">
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-text">
                 {t(locale, "project.features")}
               </h2>
             </motion.div>
@@ -144,7 +144,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
                   variants={fadeUp}
                   className="flex items-start gap-3 text-sm text-text-secondary"
                 >
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                   {feature}
                 </motion.li>
               ))}
@@ -154,7 +154,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
           <div>
             <motion.div variants={fadeUp} className="mb-5 flex items-center gap-2 text-accent">
               <Wrench size={18} />
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-white">
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-text">
                 {t(locale, "project.stack")}
               </h2>
             </motion.div>
@@ -162,7 +162,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
               {project.detail.stack.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-text-secondary"
+                  className="rounded-lg border border-line bg-surface px-3 py-1.5 font-mono text-[11px] text-text-secondary"
                 >
                   {tech}
                 </span>
@@ -171,7 +171,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
 
             <motion.div variants={fadeUp} className="mb-5 mt-10 flex items-center gap-2 text-primary">
               <GitBranch size={18} />
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-white">
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-text">
                 {t(locale, "project.process")}
               </h2>
             </motion.div>
@@ -182,7 +182,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
                   variants={fadeUp}
                   className="flex items-start gap-3 text-sm text-text-secondary"
                 >
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/15 text-[10px] font-semibold text-primary">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-primary/40 font-mono text-[10px] font-semibold text-primary">
                     {i + 1}
                   </span>
                   {step}
@@ -199,9 +199,9 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
           variants={fadeUp}
           className="mt-16 glass-card p-6"
         >
-          <div className="flex items-center gap-2 text-[#FF9F43]">
+          <div className="flex items-center gap-2 text-hue-amber">
             <AlertTriangle size={18} />
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-white">
+            <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-text">
               {t(locale, "project.challenges")}
             </h2>
           </div>
@@ -209,7 +209,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
             {project.detail.challenges.map((challenge) => (
               <li
                 key={challenge}
-                className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm text-text-secondary"
+                className="rounded-xl border border-line bg-canvas p-4 text-sm text-text-secondary"
               >
                 {challenge}
               </li>
@@ -223,7 +223,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
             whileInView="show"
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeUp}
-            className="mb-6 text-sm font-semibold uppercase tracking-wider text-white"
+            className="mb-6 font-mono text-[10px] uppercase tracking-[0.18em] text-text"
           >
             {t(locale, "project.result")}
           </motion.h2>
@@ -239,7 +239,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
                 key={`${image}-${i}`}
                 variants={fadeUp}
                 whileHover={{ scale: 1.03 }}
-                className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10"
+                className="relative aspect-[4/3] overflow-hidden rounded-xl border border-line"
               >
                 <Image
                   src={image}
@@ -260,13 +260,13 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
           variants={fadeUp}
           className="mt-16 glass-card p-8 text-center"
         >
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-secondary/15 text-secondary">
+          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl border border-primary/40 bg-primary/10 text-primary">
             <Trophy size={20} />
           </div>
-          <h2 className="mt-4 text-sm font-semibold uppercase tracking-wider text-white">
+          <h2 className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-text">
             {t(locale, "project.result")}
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-300 sm:text-base">
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-text-secondary sm:text-base">
             {project.detail.result}
           </p>
         </motion.div>

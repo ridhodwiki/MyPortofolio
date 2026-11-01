@@ -18,14 +18,15 @@ export default function Projects() {
           eyebrow="Selected work"
           title={t(locale, "projects.title")}
           description={t(locale, "projects.description")}
+          hue="rose"
         />
 
         <motion.div
-          variants={staggerContainer(0.15)}
+          variants={staggerContainer(0.08)}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="border-t border-line"
         >
           {projects.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />

@@ -1,31 +1,14 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useSpring } from "motion/react";
-import { Briefcase, GraduationCap, Building2 } from "lucide-react";
+import { motion } from "motion/react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { timeline } from "@/lib/data";
-import { fadeUp } from "@/lib/utils";
+import { fadeUp, staggerContainer } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { t } from "@/lib/i18n";
 
-const icons = {
-  graduation: GraduationCap,
-  briefcase: Briefcase,
-  university: Building2,
-};
-
 export default function Timeline() {
   const { locale } = useLanguage();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 80%", "end 60%"],
-  });
-  const lineHeight = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 24,
-  });
 
   return (
     <section id="journey" className="section-padding relative">
@@ -34,75 +17,51 @@ export default function Timeline() {
           eyebrow="My path so far"
           title={t(locale, "timeline.title")}
           description={t(locale, "timeline.description")}
+          hue="amber"
         />
 
-        <div ref={containerRef} className="relative mx-auto max-w-3xl">
-          {/* Base line */}
-          <div className="absolute left-5 top-0 h-full w-px bg-white/10 sm:left-1/2 sm:-translate-x-1/2" />
-          {/* Animated progress line */}
-          <motion.div
-            style={{ scaleY: lineHeight }}
-            className="absolute left-5 top-0 h-full w-px origin-top bg-[linear-gradient(180deg,#6C63FF,#00E5FF,#FF4D9D)] sm:left-1/2 sm:-translate-x-1/2"
-          />
+        <motion.ol
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerContainer(0.08)}
+          className="border-t border-line"
+        >
+          {timeline.map((item, index) => (
+            <motion.li
+              key={item.id}
+              variants={fadeUp}
+              className="grid grid-cols-1 gap-3 border-b border-line py-7 sm:grid-cols-[11rem_1fr] sm:gap-10"
+            >
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em]">
+                <span className="flex items-center gap-2 text-hue-amber">
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-hue-amber" />
+                  {item.period}
+                </span>
+                <span className="mt-1 block pl-3.5 text-text-muted">
+                  {item.duration ?? `entry ${String(index + 1).padStart(2, "0")}`}
+                </span>
+              </div>
 
-          <div className="flex flex-col gap-14">
-            {timeline.map((item, index) => {
-              const Icon = icons[item.icon];
-              const isEven = index % 2 === 0;
-              return (
-                <motion.div
-                  key={item.id}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, amount: 0.4 }}
-                  variants={fadeUp}
-                  className="relative flex flex-col gap-4 pl-14 sm:grid sm:grid-cols-2 sm:gap-10 sm:pl-0"
-                >
-                  <span
-                    className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-surface text-primary shadow-glow sm:left-1/2 sm:-translate-x-1/2"
-                  >
-                    <Icon size={18} />
-                  </span>
-
-                  <div
-                    className={`glass-card p-6 sm:mt-0 ${
-                      isEven ? "sm:mr-8 sm:text-right" : "sm:order-2 sm:ml-8"
-                    }`}
-                  >
-                    <span className="eyebrow !text-[10px]">
-                      {item.period}
-                      {item.duration ? ` · ${item.duration}` : ""}
-                    </span>
-                    <h3 className="mt-2 text-lg font-bold text-white">{item.title}</h3>
-                    {item.org && (
-                      <p className="mt-1 text-sm font-medium text-secondary">
-                        {item.org}
-                      </p>
-                    )}
-                    <p className="mt-3 text-sm leading-relaxed text-text-secondary">
-                      {item.description}
-                    </p>
-                    <div
-                      className={`mt-4 flex flex-wrap gap-2 ${
-                        isEven ? "sm:justify-end" : ""
-                      }`}
-                    >
-                      {item.skills.map((skill) => (
-                        <span
-                          key={skill}
-                          className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] text-text-secondary"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="hidden sm:block" aria-hidden />
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
+              <div>
+                <h3 className="text-base font-semibold tracking-tight sm:text-lg">
+                  {item.title}
+                </h3>
+                {item.org && (
+                  <p className="mt-1 text-[11px] uppercase tracking-[0.12em] text-text-secondary">
+                    {item.org}
+                  </p>
+                )}
+                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-text-secondary">
+                  {item.description}
+                </p>
+                <p className="mt-3 font-mono text-[11px] text-text-muted">
+                  {item.skills.join("  ·  ")}
+                </p>
+              </div>
+            </motion.li>
+          ))}
+        </motion.ol>
       </div>
     </section>
   );

@@ -8,17 +8,18 @@ export default function NotFound() {
   const { locale } = useLanguage();
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
-      <span className="text-sm uppercase tracking-[0.3em] text-text-secondary">
-        404
-      </span>
-      <h1 className="text-3xl font-bold sm:text-4xl">
-        {t(locale, "404.title")} <span className="gradient-text">{locale === "id" ? "ditemukan" : "found"}</span>
+    <div className="section-container flex min-h-screen flex-col justify-center py-24">
+      <span className="eyebrow">error 404</span>
+      <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-5xl">
+        {t(locale, "404.title")}{" "}
+        <span className="gradient-text">
+          {locale === "id" ? "ditemukan" : "found"}
+        </span>
       </h1>
-      <p className="max-w-md text-sm text-text-secondary sm:text-base">
+      <p className="mt-4 max-w-md text-sm leading-relaxed text-text-secondary sm:text-base">
         {t(locale, "404.description")}
       </p>
-      <Link href="/" className="btn-primary">
+      <Link href="/" className="btn-primary mt-8 w-fit">
         {t(locale, "404.backHome")}
       </Link>
     </div>

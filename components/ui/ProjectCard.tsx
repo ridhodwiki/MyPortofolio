@@ -3,118 +3,68 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Github, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Project } from "@/lib/types";
 import { fadeUp } from "@/lib/utils";
 
-export default function ProjectCard({ project, index }: { project: Project; index: number }) {
+export default function ProjectCard({
+  project,
+  index,
+}: {
+  project: Project;
+  index: number;
+}) {
   const isExternal = !!project.externalLink;
-  const cardHref = isExternal ? project.externalLink! : `/projects/${project.slug}`;
-  const Tag = isExternal ? 'a' : Link;
+  const href = isExternal ? project.externalLink! : `/projects/${project.slug}`;
 
   return (
-    <motion.article
-      variants={fadeUp}
-      custom={index * 0.1}
-      whileHover={{ y: -8 }}
-      className="group glass-card flex h-full flex-col overflow-hidden transition-shadow duration-500 hover:shadow-glow"
-    >
-      {isExternal ? (
-        <a href={cardHref} target="_blank" rel="noreferrer" className="relative aspect-video w-full overflow-hidden">
+    <motion.article variants={fadeUp} className="group border-b border-line">
+      <Link
+        href={href}
+        target={isExternal ? "_blank" : undefined}
+        rel={isExternal ? "noreferrer" : undefined}
+        className="flex flex-col gap-4 py-6 sm:flex-row sm:items-start sm:gap-7 sm:py-7"
+      >
+        <span className="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-xl border border-line bg-canvas sm:w-52">
           <Image
             src={project.thumbnail}
-            alt={`${project.name} thumbnail`}
+            alt={`${project.name} preview`}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            sizes="(max-width: 640px) 100vw, 208px"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-base/90 via-base/10 to-transparent" />
-          <span className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-md">
-            {project.category}
-          </span>
-        </a>
-      ) : (
-        <Link href={cardHref} className="relative aspect-video w-full overflow-hidden">
-          <Image
-            src={project.thumbnail}
-            alt={`${project.name} thumbnail`}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-base/90 via-base/10 to-transparent" />
-          <span className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-md">
-            {project.category}
-          </span>
-        </Link>
-      )}
+        </span>
 
-      <div className="flex flex-1 flex-col p-6">
-        {isExternal ? (
-          <a href={cardHref} target="_blank" rel="noreferrer">
-            <h3 className="text-lg font-bold text-white transition-colors group-hover:text-primary">
-              {project.name}
-            </h3>
-          </a>
-        ) : (
-          <Link href={cardHref}>
-            <h3 className="text-lg font-bold text-white transition-colors group-hover:text-primary">
-              {project.name}
-            </h3>
-          </Link>
-        )}
-
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-text-secondary">
-          {project.description}
-        </p>
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          {project.tech.map((t) => (
-            <span
-              key={t}
-              className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text[11px] text-text-secondary"
-            >
-              {t}
+        <span className="min-w-0 flex-1">
+          <span className="flex items-start justify-between gap-4">
+            <span className="flex items-baseline gap-3">
+              <span className="font-mono text-[10px] tabular-nums text-text-muted">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="text-lg font-semibold tracking-tight transition-colors group-hover:text-primary sm:text-xl">
+                {project.name}
+              </span>
             </span>
-          ))}
-        </div>
+            <ArrowUpRight
+              size={18}
+              aria-hidden
+              className="mt-1 shrink-0 text-text-muted transition-colors group-hover:text-primary"
+            />
+          </span>
 
-        <div className="mt-6 flex items-center gap-3">
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${project.name} GitHub repository`}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-text-secondary transition-colors hover:border-white/30 hover:text-white"
-            >
-              <Github size={15} />
-            </a>
-          )}
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${project.name} live demo`}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-text-secondary transition-colors hover:border-white/30 hover:text-white"
-            >
-              <ExternalLink size={15} />
-            </a>
-          )}
-          {project.externalLink && (
-            <a
-              href={project.externalLink}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${project.name} preview`}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-text-secondary transition-colors hover:border-white/30 hover:text-white"
-            >
-              <ExternalLink size={15} />
-            </a>
-          )}
-        </div>
-      </div>
+          <span className="mt-2 inline-block rounded-full border border-hue-rose/30 bg-hue-rose/10 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em] text-hue-rose">
+            {project.category}
+          </span>
+
+          <span className="mt-3 block max-w-2xl text-sm leading-relaxed text-text-secondary">
+            {project.description}
+          </span>
+
+          <span className="mt-3 block font-mono text-[11px] text-text-muted">
+            {project.tech.join("  ·  ")}
+          </span>
+        </span>
+      </Link>
     </motion.article>
   );
 }

@@ -10,12 +10,19 @@ export type TranslationKey =
   | "nav.contact"
   | "hero.welcome"
   | "hero.title"
+  | "hero.role"
   | "hero.description"
   | "hero.downloadCV"
   | "hero.github"
   | "hero.linkedin"
   | "hero.instagram"
   | "hero.contactMe"
+  | "hero.locationLabel"
+  | "hero.locationValue"
+  | "hero.statusLabel"
+  | "hero.statusValue"
+  | "hero.focusLabel"
+  | "hero.focusValue"
   | "about.title"
   | "about.description"
   | "about.interests"
@@ -24,6 +31,8 @@ export type TranslationKey =
   | "about.eduDegree"
   | "about.background"
   | "about.eduMajor"
+  | "about.eduLabel"
+  | "about.bgLabel"
   | "skills.title"
   | "skills.description"
   | "skills.filterAll"
@@ -74,8 +83,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "nav.journey": "Experience",
     "nav.certificates": "Certificates",
     "nav.contact": "Contact",
-    "hero.welcome": "Welcome to my portfolio",
+    "hero.welcome": "whoami",
     "hero.title": "Hi, I'm",
+    "hero.role": "Mahasiswa Teknik Informatika · UPGRIS",
     "hero.description":
       "Mahasiswa Teknik Informatika Universitas PGRI Semarang dengan latar belakang Matematika dan IPA yang memiliki minat dalam pengembangan aplikasi, artificial intelligence, web development, dan teknologi digital.",
     "hero.downloadCV": "Download CV",
@@ -83,6 +93,12 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "hero.linkedin": "LinkedIn",
     "hero.instagram": "Instagram",
     "hero.contactMe": "Contact Me",
+    "hero.locationLabel": "Location",
+    "hero.locationValue": "Semarang, Indonesia",
+    "hero.statusLabel": "Status",
+    "hero.statusValue": "Terbuka untuk kolaborasi",
+    "hero.focusLabel": "Focus",
+    "hero.focusValue": "Web · Mobile · IoT",
     "about.title": "About Me",
     "about.description":
       "Sedikit cerita tentang latar belakang dan minat saya di dunia teknologi.",
@@ -93,6 +109,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "about.eduDegree": "Infomatics Engineering · 2024 - Present",
     "about.background": "SMA Muhammadiyah 2 Pemalang",
     "about.eduMajor": "Matematika dan IPA",
+    "about.eduLabel": "Pendidikan",
+    "about.bgLabel": "Latar belakang",
     "skills.title": "Skills & Technologies",
     "skills.description":
       "Kumpulan bahasa, framework, tools, dan bidang yang saya pelajari dan gunakan.",
@@ -148,8 +166,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "nav.journey": "Experience",
     "nav.certificates": "Certificates",
     "nav.contact": "Contact",
-    "hero.welcome": "Welcome to my portfolio",
+    "hero.welcome": "whoami",
     "hero.title": "Hi, I'm",
+    "hero.role": "Informatics Engineering Student · UPGRIS",
     "hero.description":
       "Informatics Engineering student at Universitas PGRI Semarang with a background in Mathematics and Science, interested in application development, artificial intelligence, web development, and digital technology.",
     "hero.downloadCV": "Download CV",
@@ -157,6 +176,12 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "hero.linkedin": "LinkedIn",
     "hero.instagram": "Instagram",
     "hero.contactMe": "Contact Me",
+    "hero.locationLabel": "Location",
+    "hero.locationValue": "Semarang, Indonesia",
+    "hero.statusLabel": "Status",
+    "hero.statusValue": "Open for collaboration",
+    "hero.focusLabel": "Focus",
+    "hero.focusValue": "Web · Mobile · IoT",
     "about.title": "About Me",
     "about.description": "A little story about my background and interests in technology.",
     "about.interests": "Interests",
@@ -166,6 +191,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "about.eduDegree": "Informatics Engineering · 2024 - Present",
     "about.background": "SMA Muhammadiyah 2 Pemalang",
     "about.eduMajor": "Mathematics and Science",
+    "about.eduLabel": "Education",
+    "about.bgLabel": "Background",
     "skills.title": "Skills & Technologies",
     "skills.description":
       "Collection of languages, frameworks, tools, and fields I learn and use.",

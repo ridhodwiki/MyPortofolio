@@ -3,18 +3,31 @@
 import { motion } from "motion/react";
 import { fadeUp } from "@/lib/utils";
 
+type Hue = "violet" | "blue" | "cyan" | "emerald" | "amber" | "rose";
+
+export const HUES: Record<Hue, string> = {
+  violet: "var(--c-violet)",
+  blue: "var(--c-blue)",
+  cyan: "var(--c-cyan)",
+  emerald: "var(--c-emerald)",
+  amber: "var(--c-amber)",
+  rose: "var(--c-rose)",
+};
+
 interface SectionHeadingProps {
   eyebrow: string;
   title: string;
   description?: string;
   align?: "left" | "center";
+  hue?: Hue;
 }
 
 export default function SectionHeading({
   eyebrow,
   title,
   description,
-  align = "center",
+  align = "left",
+  hue = "violet",
 }: SectionHeadingProps) {
   return (
     <motion.div
@@ -23,9 +36,10 @@ export default function SectionHeading({
       viewport={{ once: true, amount: 0.4 }}
       variants={{
         hidden: {},
-        show: { transition: { staggerChildren: 0.12 } },
+        show: { transition: { staggerChildren: 0.08 } },
       }}
-      className={`mb-14 flex flex-col gap-4 ${
+      style={{ "--section-hue": HUES[hue] } as React.CSSProperties}
+      className={`mb-10 flex flex-col gap-3 sm:mb-12 ${
         align === "center" ? "items-center text-center" : "items-start text-left"
       }`}
     >
@@ -34,14 +48,14 @@ export default function SectionHeading({
       </motion.span>
       <motion.h2
         variants={fadeUp}
-        className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl"
+        className="text-2xl font-bold tracking-tight text-text sm:text-3xl lg:text-4xl"
       >
         {title}
       </motion.h2>
       {description && (
         <motion.p
           variants={fadeUp}
-          className="max-w-2xl text-base text-text-secondary sm:text-lg"
+          className="max-w-2xl text-sm leading-relaxed text-text-secondary sm:text-base"
         >
           {description}
         </motion.p>

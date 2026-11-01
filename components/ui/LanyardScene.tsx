@@ -32,20 +32,40 @@ useGLTF.preload(GLTF_PATH);
 useTexture.preload(BAND_TEXTURE_PATH);
 
 export default function LanyardScene({ photoSrc }: { photoSrc: string }) {
-  // Detect mobile (below lg breakpoint) at the top level so we can key the
-  // Physics world — a key change fully remounts physics bodies at the correct
-  // positions, keeping the rope properly connected to the card.
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth < 1024 : false
-  );
+  const [isMobile, setIsMobile] = useState(false);
+  const [webglOk, setWebglOk] = useState(true);
+
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    const media = window.matchMedia("(max-width: 1023px)");
+    const update = () => setIsMobile(media.matches);
+    update();
+    media.addEventListener("change", update);
+
+    try {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("webgl2") || canvas.getContext("webgl");
+      setWebglOk(!!ctx);
+    } catch {
+      setWebglOk(false);
+    }
+    return () => media.removeEventListener("change", update);
   }, []);
 
+  if (!webglOk) {
+    return (
+      <div className="flex h-full w-full items-center justify-center overflow-hidden bg-[var(--color-surface)]">
+        <img
+          src={photoSrc}
+          alt=""
+          className="max-h-full max-w-full object-contain"
+          draggable={false}
+        />
+      </div>
+    );
+  }
+
   return (
-    <Canvas camera={{ position: [0, 0, 13], fov: 27 }} gl={{ alpha: true }} dpr={[1, 2]}>
+    <Canvas camera={{ position: [0, 0, isMobile ? 9 : 13], fov: 27 }} gl={{ alpha: true }} dpr={[1, 2]}>
       <ambientLight intensity={Math.PI} />
       <Physics key={isMobile ? "mobile" : "desktop"} interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
         <Band photoSrc={photoSrc} isMobile={isMobile} />
@@ -101,7 +121,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
       const x = (pos.getX(i) - bb.min.x) / (bb.max.x - bb.min.x);
       const y = (pos.getY(i) - bb.min.y) / (bb.max.y - bb.min.y);
       const nz = norm.getZ(i);
-      
+
       // If normal points backward, flip X
       if (nz < -0.1) {
         uv[i * 2] = 1 - x;
@@ -181,15 +201,15 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
           <group
             scale={2.25}
             position={[0, -1.2, -0.05]}
-            onPointerOver={() => hover(true)}
-            onPointerOut={() => hover(false)}
-            onPointerUp={(e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
-            onPointerDown={(e) =>
+            onPointerOver={isMobile ? undefined : () => hover(true)}
+            onPointerOut={isMobile ? undefined : () => hover(false)}
+            onPointerUp={isMobile ? undefined : (e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
+            onPointerDown={isMobile ? undefined : (e) =>
             (e.target.setPointerCapture(e.pointerId),
               drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation()))))
             }
           >
-            {/* Card Face — handles both front and back with smart UV mapping */}
+            {/* Card Face - handles both front and back with smart UV mapping */}
             <mesh geometry={cardGeo} scale={[1.125, 1, 1]}>
               <meshPhysicalMaterial
                 map={photoTexture}

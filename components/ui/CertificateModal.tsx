@@ -32,7 +32,7 @@ export default function CertificateModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-canvas/85 p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="certificate-title"
@@ -50,7 +50,7 @@ export default function CertificateModal({
               type="button"
               onClick={onClose}
               aria-label="Close certificate preview"
-              className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white transition-colors hover:bg-black/60"
+              className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-line bg-surface/90 text-text transition-colors hover:border-primary hover:text-primary"
             >
               <X size={16} />
             </button>
@@ -67,9 +67,9 @@ export default function CertificateModal({
             </div>
 
             <div className="p-6">
-              <div className="flex items-center gap-2 text-accent">
+              <div className="flex items-center gap-2 text-hue-emerald">
                 <Award size={16} />
-                <span className="text-xs font-medium uppercase tracking-wider">
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em]">
                   {certificate.year}
                 </span>
               </div>
@@ -90,7 +90,7 @@ export default function CertificateModal({
                 {certificate.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="rounded-full border px-2.5 py-1 text-[11px]"
+                    className="border px-2.5 py-1 text-[11px]"
                     style={{
                       color: "var(--color-text-secondary)",
                       borderColor: "var(--color-border)",

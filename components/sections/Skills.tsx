@@ -1,15 +1,25 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Code2 } from "lucide-react";
+import { motion } from "motion/react";
 import SectionHeading from "@/components/ui/SectionHeading";
+import SkillIcon from "@/components/ui/SkillIcon";
 import { skillCategories, skills } from "@/lib/data";
 import { cn, fadeUp, staggerContainer } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { t } from "@/lib/i18n";
 
 type Filter = "All" | (typeof skillCategories)[number];
+
+const categoryStyles: Record<string, string> = {
+  Programming: "text-hue-blue border-hue-blue/30 bg-hue-blue/10",
+  Frontend: "text-hue-cyan border-hue-cyan/30 bg-hue-cyan/10",
+  Mobile: "text-hue-emerald border-hue-emerald/30 bg-hue-emerald/10",
+  Backend: "text-hue-amber border-hue-amber/30 bg-hue-amber/10",
+  Database: "text-hue-violet border-hue-violet/30 bg-hue-violet/10",
+  Tools: "text-hue-rose border-hue-rose/30 bg-hue-rose/10",
+  AI: "text-accent border-accent/30 bg-accent/10",
+};
 
 export default function Skills() {
   const [filter, setFilter] = useState<Filter>("All");
@@ -29,9 +39,10 @@ export default function Skills() {
           eyebrow="What I work with"
           title={t(locale, "skills.title")}
           description={t(locale, "skills.description")}
+          hue="cyan"
         />
 
-        <div className="mb-10 flex flex-wrap justify-center gap-2">
+        <div className="mb-8 flex flex-wrap gap-2">
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -39,11 +50,12 @@ export default function Skills() {
               onClick={() => setFilter(tab)}
               aria-pressed={filter === tab}
               className={cn(
-                "rounded-full border px-4 py-2 text-xs font-medium transition-all duration-300 sm:text-sm",
+                "rounded-lg border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors duration-150",
                 filter === tab
-                  ? "border-primary/60 bg-primary/20 text-white shadow-glow"
-                  : "border-white/10 bg-white/[0.02] text-text-secondary hover:border-white/25 hover:text-white"
+                  ? "border-primary bg-primary"
+                  : "border-line bg-surface text-text-secondary hover:border-primary hover:text-primary"
               )}
+              style={filter === tab ? { color: "rgb(var(--c-on-primary))" } : undefined}
             >
               {tab === "All" ? t(locale, "skills.filterAll") : tab}
             </button>
@@ -51,49 +63,33 @@ export default function Skills() {
         </div>
 
         <motion.div
-          variants={staggerContainer(0.05)}
+          key={filter}
+          variants={staggerContainer(0.03)}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
+          animate="show"
+          className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-10"
         >
-          <AnimatePresence mode="wait">
+          {filtered.map((skill, i) => (
             <motion.div
-              key={filter}
-              variants={staggerContainer(0.04)}
-              initial="hidden"
-              animate="show"
-              exit={{ opacity: 0, transition: { duration: 0.2, ease: "easeOut" } }}
-              className="contents"
+              key={skill.name}
+              variants={fadeUp}
+              className="flex items-center gap-3 border-b border-line py-3"
             >
-              {filtered.map((skill) => (
-                <motion.div
-                  key={skill.name}
-                  variants={fadeUp}
-                  whileHover={{ y: -6 }}
-                  className="group relative flex flex-col items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-6 text-center transition-colors duration-300 hover:border-primary/50"
-                >
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    style={{
-                      background:
-                        "radial-gradient(circle at 50% 0%, rgba(108,99,255,0.25), transparent 70%)",
-                    }}
-                  />
-                  <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-primary transition-transform duration-300 group-hover:scale-110">
-                    <Code2 size={20} />
-                  </span>
-                  <span className="relative text-xs font-medium text-white sm:text-sm">
-                    {skill.name}
-                  </span>
-                  <span className="relative text-[10px] uppercase tracking-wider text-text-secondary">
-                    {skill.category}
-                  </span>
-                </motion.div>
-              ))}
+              <span className="w-6 shrink-0 font-mono text-[10px] tabular-nums text-text-muted">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <SkillIcon name={skill.name} />
+              <span className="flex-1 text-sm font-medium">{skill.name}</span>
+              <span
+                className={cn(
+                  "rounded-full border px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em]",
+                  categoryStyles[skill.category] ?? "border-line text-text-muted"
+                )}
+              >
+                {skill.category}
+              </span>
             </motion.div>
-          </AnimatePresence>
+          ))}
         </motion.div>
       </div>
     </section>

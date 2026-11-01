@@ -23,50 +23,51 @@ export default function Certificates() {
           eyebrow="Proof of learning"
           title={t(locale, "certificates.title")}
           description={t(locale, "certificates.description")}
+          hue="emerald"
         />
 
         <motion.div
-          variants={staggerContainer(0.1)}
+          variants={staggerContainer(0.06)}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-2 gap-6 md:grid-cols-3"
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         >
           {certificates.map((cert) => (
             <motion.button
               type="button"
               key={cert.id}
               variants={fadeUp}
-              whileHover={{ y: -6 }}
               onClick={() => setActive(cert)}
-              className="glass-card group relative flex flex-col overflow-hidden p-0 text-left transition-shadow duration-500 hover:shadow-glow"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface text-left shadow-[var(--shadow-card)] transition-colors duration-200 hover:border-hue-emerald/60"
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
+              <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-line bg-white">
                 <Image
                   src={cert.image}
                   alt={cert.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-contain p-4"
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-medium text-white backdrop-blur-md">
-                    <ZoomIn size={14} />
+                <div className="absolute inset-0 flex items-center justify-center bg-canvas/80 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                  <span className="flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-text">
+                    <ZoomIn size={12} />
                     Preview
                   </span>
                 </div>
               </div>
-              <div className="flex flex-1 flex-col p-5">
-                <div className="flex items-center gap-2 text-primary">
-                  <Award size={14} />
-                  <span className="text-[11px] font-medium uppercase tracking-wider text-text-secondary">
+
+              <div className="flex flex-1 flex-col p-4">
+                <div className="flex items-center gap-2 text-hue-emerald">
+                  <Award size={12} />
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em]">
                     {cert.year}
                   </span>
                 </div>
-                <h3 className="mt-2 text-sm font-bold sm:text-base" style={{ color: "var(--color-text)" }}>
+                <h3 className="mt-2 text-sm font-semibold leading-snug">
                   {cert.name}
                 </h3>
-                <p className="mt-1 text-xs font-medium text-secondary">
+                <p className="mt-1.5 text-[11px] text-text-muted">
                   {cert.institution}
                 </p>
               </div>

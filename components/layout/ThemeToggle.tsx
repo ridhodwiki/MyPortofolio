@@ -26,37 +26,35 @@ export default function ThemeToggle() {
   if (!mounted) return null;
 
   return (
-    <motion.button
+    <button
       type="button"
       onClick={toggle}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.92 }}
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      className="inline-flex items-center justify-center rounded-full p-2 text-text-secondary transition-colors hover:text-white glass h-9 w-9"
+      className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-text-secondary transition-colors hover:border-primary hover:text-primary"
     >
       <AnimatePresence mode="wait" initial={false}>
         {theme === "dark" ? (
           <motion.span
             key="sun"
-            initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
-            animate={{ rotate: 0, opacity: 1, scale: 1 }}
-            exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
-            transition={{ duration: 0.2 }}
+            initial={{ rotate: -90, opacity: 0 }}
+            animate={{ rotate: 0, opacity: 1 }}
+            exit={{ rotate: 90, opacity: 0 }}
+            transition={{ duration: 0.15 }}
           >
-            <Sun size={16} />
+            <Sun size={14} />
           </motion.span>
         ) : (
           <motion.span
             key="moon"
-            initial={{ rotate: 90, opacity: 0, scale: 0.5 }}
-            animate={{ rotate: 0, opacity: 1, scale: 1 }}
-            exit={{ rotate: -90, opacity: 0, scale: 0.5 }}
-            transition={{ duration: 0.2 }}
+            initial={{ rotate: 90, opacity: 0 }}
+            animate={{ rotate: 0, opacity: 1 }}
+            exit={{ rotate: -90, opacity: 0 }}
+            transition={{ duration: 0.15 }}
           >
-            <Moon size={16} />
+            <Moon size={14} />
           </motion.span>
         )}
       </AnimatePresence>
-    </motion.button>
+    </button>
   );
 }

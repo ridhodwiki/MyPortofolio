@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { motion } from "motion/react";
-import { Mail, Github, Linkedin, Send, CheckCircle2 } from "lucide-react";
+import { Mail, Github, Linkedin, Send, CheckCircle2, ArrowUpRight } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { profile } from "@/lib/data";
@@ -14,10 +14,8 @@ type Status = "idle" | "loading" | "success" | "error";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
-  const [focused, setFocused] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { locale } = useLanguage();
-
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,15 +73,16 @@ export default function Contact() {
           eyebrow="Let's connect"
           title={t(locale, "contact.title")}
           description={t(locale, "contact.description")}
+          hue="blue"
         />
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-5 lg:gap-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.3 }}
-            variants={staggerContainer(0.12)}
-            className="flex flex-col gap-4 lg:col-span-2"
+            variants={staggerContainer(0.06)}
+            className="border-t border-line lg:col-span-4"
           >
             {contactLinks.map(({ icon: Icon, label, value, href }) => (
               <motion.a
@@ -92,16 +91,22 @@ export default function Contact() {
                 target={href.startsWith("http") ? "_blank" : undefined}
                 rel={href.startsWith("http") ? "noreferrer" : undefined}
                 variants={fadeUp}
-                whileHover={{ y: -4, x: 2 }}
-                className="glass-card flex items-center gap-4 p-5"
+                className="group flex items-center justify-between gap-4 border-b border-line py-4"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary">
-                  <Icon size={18} />
+                <span className="min-w-0">
+                  <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
+                    <Icon size={12} />
+                    {label}
+                  </span>
+                  <span className="mt-1 block truncate text-sm text-text-secondary transition-colors group-hover:text-primary">
+                    {value}
+                  </span>
                 </span>
-                <span>
-                  <span className="block text-xs text-text-secondary">{label}</span>
-                  <span className="block text-sm font-medium text-white">{value}</span>
-                </span>
+                <ArrowUpRight
+                  size={14}
+                  aria-hidden
+                  className="shrink-0 text-text-muted transition-colors group-hover:text-primary"
+                />
               </motion.a>
             ))}
           </motion.div>
@@ -110,21 +115,21 @@ export default function Contact() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
-            variants={staggerContainer(0.1)}
+            variants={staggerContainer(0.06)}
             onSubmit={handleSubmit}
             autoComplete="off"
-            className="glass-card flex flex-col gap-5 p-6 sm:p-8 lg:col-span-3"
+            className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow-card)] sm:p-7 lg:col-span-8"
           >
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {fields.map((field) => (
-                <motion.div key={field.id} variants={fadeUp} className="relative">
+                <motion.div key={field.id} variants={fadeUp}>
                   <label
                     htmlFor={field.id}
-                    className="mb-2 block text-xs font-medium text-text-secondary"
+                    className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted"
                   >
                     {field.label}
                   </label>
-                  <motion.input
+                  <input
                     id={field.id}
                     name={field.id}
                     type={field.type}
@@ -133,52 +138,26 @@ export default function Contact() {
                     data-lpignore="true"
                     data-1p-ignore="true"
                     placeholder={field.placeholder}
-                    onFocus={() => setFocused(field.id)}
-                    onBlur={() => setFocused(null)}
-                    animate={{
-                      borderColor:
-                        focused === field.id
-                          ? "rgba(108,99,255,0.7)"
-                          : "rgba(255,255,255,0.1)",
-                      boxShadow:
-                        focused === field.id
-                          ? "0 0 0 4px rgba(108,99,255,0.15)"
-                          : "0 0 0 0px rgba(108,99,255,0)",
-                    }}
-                    transition={{ duration: 0.25 }}
-                    className="w-full rounded-xl border bg-white/[0.03] px-4 py-3 text-sm text-white outline-none placeholder:text-text-secondary/50"
+                    className="w-full rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text outline-none transition-colors placeholder:text-text-muted focus:border-primary"
                   />
                 </motion.div>
               ))}
             </div>
 
-            <motion.div variants={fadeUp} className="relative">
+            <motion.div variants={fadeUp}>
               <label
                 htmlFor="message"
-                className="mb-2 block text-xs font-medium text-text-secondary"
+                className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted"
               >
                 {t(locale, "contact.messageLabel")}
               </label>
-              <motion.textarea
+              <textarea
                 id="message"
                 name="message"
                 required
                 rows={5}
                 placeholder={t(locale, "contact.messagePlaceholder")}
-                onFocus={() => setFocused("message")}
-                onBlur={() => setFocused(null)}
-                animate={{
-                  borderColor:
-                    focused === "message"
-                      ? "rgba(108,99,255,0.7)"
-                      : "rgba(255,255,255,0.1)",
-                  boxShadow:
-                    focused === "message"
-                      ? "0 0 0 4px rgba(108,99,255,0.15)"
-                      : "0 0 0 0px rgba(108,99,255,0)",
-                }}
-                transition={{ duration: 0.25 }}
-                className="w-full resize-none rounded-xl border bg-white/[0.03] px-4 py-3 text-sm text-white outline-none placeholder:text-text-secondary/50"
+                className="w-full resize-none rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text outline-none transition-colors placeholder:text-text-muted focus:border-primary"
               />
             </motion.div>
 
@@ -186,13 +165,11 @@ export default function Contact() {
               variants={fadeUp}
               type="submit"
               disabled={status !== "idle"}
-              whileHover={{ scale: status === "idle" ? 1.02 : 1 }}
-              whileTap={{ scale: status === "idle" ? 0.97 : 1 }}
-              className="btn-primary mt-2 w-full sm:w-fit"
+              className="btn-primary mt-1 w-full sm:w-fit disabled:opacity-70"
             >
               {status === "idle" && (
                 <>
-                  <Send size={16} />
+                  <Send size={14} />
                   {t(locale, "contact.sendMessage")}
                 </>
               )}
@@ -201,29 +178,26 @@ export default function Contact() {
                   <motion.span
                     animate={{ rotate: 360 }}
                     transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                    className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white"
+                    className="h-3.5 w-3.5 border border-current border-t-transparent"
                   />
                   {t(locale, "contact.sending")}
                 </>
               )}
               {status === "success" && (
                 <>
-                  <CheckCircle2 size={16} />
+                  <CheckCircle2 size={14} />
                   {t(locale, "contact.messageSent")}
                 </>
               )}
               {status === "error" && (
                 <>
-                  <Send size={16} />
+                  <Send size={14} />
                   {t(locale, "contact.tryAgain")}
                 </>
               )}
             </motion.button>
             {status === "error" && (
-              <motion.p
-                variants={fadeUp}
-                className="text-sm text-red-400/80"
-              >
+              <motion.p variants={fadeUp} className="text-xs text-hue-rose">
                 {errorMessage}
               </motion.p>
             )}

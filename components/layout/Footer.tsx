@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import { Github, Linkedin, Mail, ArrowUp } from "lucide-react";
 import { profile } from "@/lib/data";
 import InstagramIcon from "@/components/ui/InstagramIcon";
@@ -23,40 +22,38 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative border-t border-white/[0.06]">
-      <div className="section-container flex flex-col items-center gap-6 py-10 sm:flex-row sm:justify-between">
-        <p className="text-sm text-text-secondary">
-          © {year} {profile.name}. {t(locale, "footer.copyright")}
-          <span className="ml-2 text-[10px] text-text-secondary/40">{t(locale, "footer.build")}</span>
+    <footer className="border-t border-line">
+      <div className="rainbow-rule w-full opacity-60" />
+      <div className="section-container flex flex-col gap-5 py-8 sm:flex-row sm:items-center sm:justify-between">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
+          © {year} {profile.name} · {t(locale, "footer.copyright")}{" "}
+          <span className="text-text-muted/70">{t(locale, "footer.build")}</span>
         </p>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-5">
           {socials.map(({ icon: Icon, href, label }) => (
-            <motion.a
+            <a
               key={label}
               href={href}
               target={href.startsWith("http") ? "_blank" : undefined}
               rel={href.startsWith("http") ? "noreferrer" : undefined}
               aria-label={label}
-              whileHover={{ y: -3, scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="glass flex h-10 w-10 items-center justify-center rounded-full text-text-secondary transition-colors hover:text-white"
+              className="text-text-secondary transition-colors hover:text-primary"
             >
-              <Icon size={16} />
-            </motion.a>
+              <Icon size={14} />
+            </a>
           ))}
         </div>
 
-        <motion.button
+        <button
           type="button"
           onClick={scrollTop}
-          whileHover={{ y: -3 }}
-          whileTap={{ scale: 0.92 }}
           aria-label="Back to top"
-          className="glass flex h-10 w-10 items-center justify-center rounded-full text-text-secondary transition-colors hover:text-white"
+          className="flex w-fit items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted transition-colors hover:text-primary"
         >
-          <ArrowUp size={16} />
-        </motion.button>
+          <ArrowUp size={12} />
+          top
+        </button>
       </div>
     </footer>
   );
