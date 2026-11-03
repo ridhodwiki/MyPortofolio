@@ -13,9 +13,9 @@
   --c-secondary-dim: 148 163 195;
   --c-accent: 167 139 250;
   --c-accent-dim: 124 92 224;
-  --c-text: 238 241 250;
-  --c-text-secondary: 178 188 210;
-  --c-text-muted: 125 136 162;
+  --c-text: 244 247 255;
+  --c-text-secondary: 196 206 228;
+  --c-text-muted: 152 163 190;
   --c-line: 44 53 80;
   --c-on-primary: 11 16 32;
 
@@ -51,9 +51,9 @@
   --c-secondary-dim: 90 103 125;
   --c-accent: 109 40 217;
   --c-accent-dim: 91 33 182;
-  --c-text: 16 24 40;
-  --c-text-secondary: 71 84 103;
-  --c-text-muted: 122 134 153;
+  --c-text: 24, 34, 52;
+  --c-text-secondary: 60, 75, 96;
+  --c-text-muted: 104, 118, 140;
   --c-line: 226 230 238;
   --c-on-primary: 255 255 255;
 
