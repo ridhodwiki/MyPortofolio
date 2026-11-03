@@ -12,7 +12,7 @@ type VantaEffect = {
 
 function readToken(name: string, fallback: number): number {
   const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  const [r, g, b] = raw.split(/\s+/).map(Number);
+  const [r, g, b] = raw.split(/[\s,]+/).map(Number);
   if ([r, g, b].some((v) => Number.isNaN(v))) return fallback;
   return (r << 16) | (g << 8) | b;
 }

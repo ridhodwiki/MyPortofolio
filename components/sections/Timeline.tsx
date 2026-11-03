@@ -1,33 +1,36 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion } from "motion/react";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { timeline } from "@/lib/data";
+import { getTimeline } from "@/lib/data";
 import { fadeUp, staggerContainer } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { t } from "@/lib/i18n";
 
 export default function Timeline() {
   const { locale } = useLanguage();
+  const items = useMemo(() => getTimeline(locale), [locale]);
 
   return (
     <section id="journey" className="section-padding relative">
       <div className="section-container">
         <SectionHeading
-          eyebrow="My path so far"
+          eyebrow={t(locale, "timeline.eyebrow")}
           title={t(locale, "timeline.title")}
           description={t(locale, "timeline.description")}
           hue="amber"
         />
 
         <motion.ol
+          key={locale}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={staggerContainer(0.08)}
           className="border-t border-line"
         >
-          {timeline.map((item, index) => (
+          {items.map((item, index) => (
             <motion.li
               key={item.id}
               variants={fadeUp}

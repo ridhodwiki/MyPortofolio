@@ -27,7 +27,7 @@ export default function About() {
     <section id="about" className="section-padding relative">
       <div className="section-container">
         <SectionHeading
-          eyebrow="Get to know me"
+          eyebrow={t(locale, "about.eyebrow")}
           title={t(locale, "about.title")}
           description={t(locale, "about.description")}
           hue="violet"

@@ -14,15 +14,15 @@ export default function ProjectCard({
   project: Project;
   index: number;
 }) {
-  const isExternal = !!project.externalLink;
-  const href = isExternal ? project.externalLink! : `/projects/${project.slug}`;
+  const isExternalOnly = !project.detail && !!project.externalLink;
+  const href = isExternalOnly ? project.externalLink! : `/projects/${project.slug}`;
 
   return (
     <motion.article variants={fadeUp} className="group border-b border-line">
       <Link
         href={href}
-        target={isExternal ? "_blank" : undefined}
-        rel={isExternal ? "noreferrer" : undefined}
+        target={isExternalOnly ? "_blank" : undefined}
+        rel={isExternalOnly ? "noreferrer" : undefined}
         className="flex flex-col gap-4 py-6 sm:flex-row sm:items-start sm:gap-7 sm:py-7"
       >
         <span className="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-xl border border-line bg-canvas sm:w-52">

@@ -36,7 +36,7 @@ export default function Skills() {
     <section id="skills" className="section-padding relative">
       <div className="section-container">
         <SectionHeading
-          eyebrow="What I work with"
+          eyebrow={t(locale, "skills.eyebrow")}
           title={t(locale, "skills.title")}
           description={t(locale, "skills.description")}
           hue="cyan"
@@ -50,7 +50,7 @@ export default function Skills() {
               onClick={() => setFilter(tab)}
               aria-pressed={filter === tab}
               className={cn(
-                "rounded-lg border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors duration-150",
+                "min-h-9 rounded-lg border px-3.5 py-2 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors duration-150",
                 filter === tab
                   ? "border-primary bg-primary"
                   : "border-line bg-surface text-text-secondary hover:border-primary hover:text-primary"

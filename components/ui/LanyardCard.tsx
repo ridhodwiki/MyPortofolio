@@ -18,8 +18,9 @@ export default function LanyardCard({ photoSrc = "/images/ridho.webp" }: { photo
       {/* Ambient glow behind the 3D scene */}
       <motion.div
         aria-hidden
-        animate={{ opacity: [0.4, 0.75, 0.4] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.55 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
         className="absolute inset-6 -z-10 rounded-[3rem] bg-[linear-gradient(135deg,rgba(108,99,255,0.3),rgba(0,229,255,0.2),rgba(255,77,157,0.2))] blur-3xl"
       />
 

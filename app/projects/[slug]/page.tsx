@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   if (!project) return {};
 
   return {
-    title: `${project.name} — Project Detail`,
+    title: `${project.name} · Project Detail`,
     description: project.description,
     openGraph: {
       title: project.name,

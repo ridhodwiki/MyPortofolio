@@ -12,7 +12,7 @@ const siteUrl = "https://ridhodwiki.dev";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${profile.name} — Informatics Engineering Student & Developer`,
+    default: `${profile.name} · Informatics Engineering Student & Developer`,
     template: `%s | ${profile.name}`,
   },
   description: profile.heroDescription,
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "id_ID",
     url: siteUrl,
-    title: `${profile.name} — Informatics Engineering Student & Developer`,
+    title: `${profile.name} · Informatics Engineering Student & Developer`,
     description: profile.heroDescription,
     siteName: profile.name,
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${profile.name} — Informatics Engineering Student & Developer`,
+    title: `${profile.name} · Informatics Engineering Student & Developer`,
     description: profile.heroDescription,
     images: ["/images/og-image.svg"],
   },
@@ -72,7 +72,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <head>
-        {/* Inline script to apply saved theme before first paint — prevents flash */}
+        {/* Inline script to apply saved theme before first paint, prevents flash */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}})();`,

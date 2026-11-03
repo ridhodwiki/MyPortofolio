@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Award } from "lucide-react";
 import { Certificate } from "@/lib/types";
+import { useLanguage } from "@/context/LanguageContext";
+import { t } from "@/lib/i18n";
 
 export default function CertificateModal({
   certificate,
@@ -13,6 +15,10 @@ export default function CertificateModal({
   certificate: Certificate | null;
   onClose: () => void;
 }) {
+  const { locale } = useLanguage();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -23,10 +29,15 @@ export default function CertificateModal({
 
   useEffect(() => {
     if (!certificate) return;
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const timer = window.setTimeout(() => closeButtonRef.current?.focus(), 50);
+
     return () => {
+      window.clearTimeout(timer);
       document.body.style.overflow = previousOverflow;
+      previousFocusRef.current?.focus?.();
     };
   }, [certificate]);
 
@@ -52,10 +63,11 @@ export default function CertificateModal({
             className="glass-card relative w-full max-w-lg overflow-hidden p-0"
           >
             <button
+              ref={closeButtonRef}
               type="button"
               onClick={onClose}
-              aria-label="Close certificate preview"
-              className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-line bg-surface/90 text-text transition-colors hover:border-primary hover:text-primary"
+              aria-label={t(locale, "certificates.closePreview")}
+              className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface/95 text-text shadow-sm transition-colors hover:border-primary hover:text-primary"
             >
               <X size={16} />
             </button>
@@ -80,27 +92,21 @@ export default function CertificateModal({
               </div>
               <h3
                 id="certificate-title"
-                className="mt-2 text-xl font-bold"
-                style={{ color: "var(--color-text)" }}
+                className="mt-2 text-xl font-bold text-text"
               >
                 {certificate.name}
               </h3>
               <p className="mt-1 text-sm font-medium text-secondary">
                 {certificate.institution}
               </p>
-              <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+              <p className="mt-3 text-sm leading-relaxed text-text-secondary">
                 {certificate.description}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {certificate.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="border px-2.5 py-1 text-[11px]"
-                    style={{
-                      color: "var(--color-text-secondary)",
-                      borderColor: "var(--color-border)",
-                      backgroundColor: "var(--color-glass-bg)",
-                    }}
+                    className="rounded-md border border-line bg-surface px-2.5 py-1 text-[11px] text-text-secondary"
                   >
                     {skill}
                   </span>

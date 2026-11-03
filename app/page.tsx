@@ -12,7 +12,7 @@ import Contact from "@/components/sections/Contact";
 import { profile } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: `${profile.name} — Informatics Engineering Student & Developer`,
+  title: `${profile.name} · Informatics Engineering Student & Developer`,
 };
 
 export default function HomePage() {

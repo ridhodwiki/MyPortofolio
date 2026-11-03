@@ -30,7 +30,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-text-secondary transition-colors hover:border-primary hover:text-primary"
+      className="inline-flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-line bg-surface text-text-secondary transition-colors hover:border-primary hover:text-primary"
     >
       <AnimatePresence mode="wait" initial={false}>
         {theme === "dark" ? (

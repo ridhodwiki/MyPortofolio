@@ -20,6 +20,10 @@ export default function WelcomeScreen() {
   const announced = useRef(false);
 
   useEffect(() => {
+    if (document.documentElement.dataset.appReady === "true") {
+      setVisible(false);
+      return;
+    }
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";

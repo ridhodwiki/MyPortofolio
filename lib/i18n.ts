@@ -24,6 +24,7 @@ export type TranslationKey =
   | "hero.statusValue"
   | "hero.focusLabel"
   | "hero.focusValue"
+  | "about.eyebrow"
   | "about.title"
   | "about.description"
   | "about.interests"
@@ -34,15 +35,23 @@ export type TranslationKey =
   | "about.eduMajor"
   | "about.eduLabel"
   | "about.bgLabel"
+  | "skills.eyebrow"
   | "skills.title"
   | "skills.description"
   | "skills.filterAll"
+  | "projects.eyebrow"
   | "projects.title"
   | "projects.description"
+  | "projects.filterAll"
+  | "timeline.eyebrow"
   | "timeline.title"
   | "timeline.description"
+  | "certificates.eyebrow"
   | "certificates.title"
   | "certificates.description"
+  | "certificates.preview"
+  | "certificates.closePreview"
+  | "contact.eyebrow"
   | "contact.title"
   | "contact.description"
   | "contact.nameLabel"
@@ -56,11 +65,14 @@ export type TranslationKey =
   | "contact.messageSent"
   | "contact.tryAgain"
   | "contact.error"
+  | "contact.copyEmail"
+  | "contact.copied"
   | "footer.copyright"
   | "footer.build"
   | "project.backToProjects"
   | "project.viewCode"
   | "project.liveDemo"
+  | "project.openPrototype"
   | "project.preview"
   | "project.overview"
   | "project.problem"
@@ -71,7 +83,8 @@ export type TranslationKey =
   | "project.challenges"
   | "project.gallery"
   | "project.result"
-  | "404.title"
+  | "404.titlePrefix"
+  | "404.titleHighlight"
   | "404.description"
   | "404.backHome";
 
@@ -101,6 +114,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "hero.statusValue": "Terbuka untuk kolaborasi",
     "hero.focusLabel": "Focus",
     "hero.focusValue": "Web · Mobile · IoT",
+    "about.eyebrow": "Kenali saya",
     "about.title": "About Me",
     "about.description":
       "Sedikit cerita tentang latar belakang dan minat saya di dunia teknologi.",
@@ -108,24 +122,32 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "about.bio":
       "Saya adalah mahasiswa Universitas PGRI Semarang Program Studi Teknik Informatika Fakultas Teknik dan Informatika. Saya memiliki minat besar dalam dunia teknologi informasi, terutama di bidang pemrograman dan pengembangan sistem. Saya senang mengeksplorasi hal baru yang berkaitan dengan desain antarmuka, sistem digital, dan teknologi kreatif.",
     "about.university": "Universitas PGRI Semarang",
-    "about.eduDegree": "Infomatics Engineering · 2024 - Present",
+    "about.eduDegree": "Teknik Informatika · 2024 - Sekarang",
     "about.background": "SMA Muhammadiyah 2 Pemalang",
     "about.eduMajor": "Matematika dan IPA",
     "about.eduLabel": "Pendidikan",
     "about.bgLabel": "Latar belakang",
+    "skills.eyebrow": "Teknologi yang saya gunakan",
     "skills.title": "Skills & Technologies",
     "skills.description":
       "Kumpulan bahasa, framework, tools, dan bidang yang saya pelajari dan gunakan.",
-    "skills.filterAll": "All",
+    "skills.filterAll": "Semua",
+    "projects.eyebrow": "Karya pilihan",
     "projects.title": "Projects",
     "projects.description":
-      "Beberapa project yang telah saya kembangkan, mulai dari aplikasi mobile, automation, hingga Internet of Things.",
+      "Beberapa project yang telah saya kembangkan, mulai dari desain aplikasi mobile, web modern, hingga Internet of Things.",
+    "projects.filterAll": "Semua",
+    "timeline.eyebrow": "Perjalanan saya",
     "timeline.title": "Journey Timeline",
     "timeline.description":
-      "Perjalanan pendidikan dan yang membentuk kemampuan saya saat ini.",
+      "Perjalanan pendidikan dan pengalaman yang membentuk kemampuan saya saat ini.",
+    "certificates.eyebrow": "Bukti pembelajaran",
     "certificates.title": "Certificates",
     "certificates.description":
       "Sertifikat pembelajaran yang telah saya selesaikan dari berbagai platform dan institusi.",
+    "certificates.preview": "Pratinjau",
+    "certificates.closePreview": "Tutup pratinjau sertifikat",
+    "contact.eyebrow": "Mari terhubung",
     "contact.title": "Contact Me",
     "contact.description":
       "Punya project, pertanyaan, atau ingin berkolaborasi? Jangan ragu untuk menghubungi saya.",
@@ -140,22 +162,26 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "contact.messageSent": "Message Sent",
     "contact.tryAgain": "Try Again",
     "contact.error": "Gagal mengirim pesan. Coba lagi.",
+    "contact.copyEmail": "Salin email",
+    "contact.copied": "Tersalin",
     "footer.copyright": "All rights reserved.",
     "footer.build": "build v8",
-    "project.backToProjects": "Back to Projects",
-    "project.viewCode": "View Code",
+    "project.backToProjects": "Kembali ke Projects",
+    "project.viewCode": "Lihat Kode",
     "project.liveDemo": "Live Demo",
-    "project.preview": "Preview",
-    "project.overview": "Overview",
-    "project.problem": "Problem",
-    "project.solution": "Solution",
-    "project.features": "Features",
-    "project.stack": "Technology Stack",
-    "project.process": "Development Process",
-    "project.challenges": "Challenges",
-    "project.gallery": "Screenshot Gallery",
-    "project.result": "Result",
-    "404.title": "Halaman tidak ditemukan",
+    "project.openPrototype": "Buka Prototype",
+    "project.preview": "Pratinjau",
+    "project.overview": "Ringkasan",
+    "project.problem": "Permasalahan",
+    "project.solution": "Solusi",
+    "project.features": "Fitur Utama",
+    "project.stack": "Teknologi yang Digunakan",
+    "project.process": "Proses Pengembangan",
+    "project.challenges": "Tantangan Teknis",
+    "project.gallery": "Galeri Tampilan",
+    "project.result": "Hasil Akhir",
+    "404.titlePrefix": "Halaman tidak",
+    "404.titleHighlight": "ditemukan",
     "404.description":
       "Halaman yang kamu cari mungkin sudah dipindahkan atau tidak pernah ada.",
     "404.backHome": "Kembali ke Home",
@@ -185,6 +211,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "hero.statusValue": "Open for collaboration",
     "hero.focusLabel": "Focus",
     "hero.focusValue": "Web · Mobile · IoT",
+    "about.eyebrow": "Get to know me",
     "about.title": "About Me",
     "about.description": "A little story about my background and interests in technology.",
     "about.interests": "Interests",
@@ -196,19 +223,27 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "about.eduMajor": "Mathematics and Science",
     "about.eduLabel": "Education",
     "about.bgLabel": "Background",
+    "skills.eyebrow": "What I work with",
     "skills.title": "Skills & Technologies",
     "skills.description":
       "Collection of languages, frameworks, tools, and fields I learn and use.",
     "skills.filterAll": "All",
+    "projects.eyebrow": "Selected work",
     "projects.title": "Projects",
     "projects.description":
-      "Several projects I have developed, from mobile applications, automation, to Internet of Things.",
+      "Several projects I have developed, from mobile application design and modern web apps to Internet of Things.",
+    "projects.filterAll": "All",
+    "timeline.eyebrow": "My path so far",
     "timeline.title": "Journey Timeline",
     "timeline.description":
       "Educational journey and experiences that shaped my current skills.",
+    "certificates.eyebrow": "Proof of learning",
     "certificates.title": "Certificates",
     "certificates.description":
       "Learning certificates I have completed from various platforms and institutions.",
+    "certificates.preview": "Preview",
+    "certificates.closePreview": "Close certificate preview",
+    "contact.eyebrow": "Let's connect",
     "contact.title": "Contact Me",
     "contact.description":
       "Have a project, question, or want to collaborate? Don't hesitate to contact me.",
@@ -223,22 +258,26 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "contact.messageSent": "Message Sent",
     "contact.tryAgain": "Try Again",
     "contact.error": "Failed to send message. Try again.",
+    "contact.copyEmail": "Copy email",
+    "contact.copied": "Copied",
     "footer.copyright": "All rights reserved.",
     "footer.build": "build v8",
     "project.backToProjects": "Back to Projects",
     "project.viewCode": "View Code",
     "project.liveDemo": "Live Demo",
+    "project.openPrototype": "Open Prototype",
     "project.preview": "Preview",
     "project.overview": "Overview",
     "project.problem": "Problem",
     "project.solution": "Solution",
-    "project.features": "Features",
+    "project.features": "Key Features",
     "project.stack": "Technology Stack",
     "project.process": "Development Process",
-    "project.challenges": "Challenges",
+    "project.challenges": "Technical Challenges",
     "project.gallery": "Screenshot Gallery",
     "project.result": "Result",
-    "404.title": "Page not found",
+    "404.titlePrefix": "Page not",
+    "404.titleHighlight": "found",
     "404.description":
       "The page you are looking for may have been moved or never existed.",
     "404.backHome": "Back to Home",

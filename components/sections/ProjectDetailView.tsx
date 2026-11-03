@@ -17,6 +17,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { Project } from "@/lib/types";
+import { getProjectBySlug } from "@/lib/data";
 import { fadeUp, staggerContainer } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { t } from "@/lib/i18n";
@@ -29,8 +30,13 @@ const blocks = [
   { key: "solution", label: "project.solution", icon: Lightbulb },
 ] as const;
 
-export default function ProjectDetailView({ project }: { project: ProjectWithDetail }) {
+export default function ProjectDetailView({ project: initialProject }: { project: ProjectWithDetail }) {
   const { locale } = useLanguage();
+  const localized = getProjectBySlug(initialProject.slug, locale);
+  const project = (localized?.detail ? localized : initialProject) as ProjectWithDetail;
+
+  const liveUrl = project.demo ?? project.externalLink;
+  const isPrototype = !project.demo && !!project.externalLink;
 
   return (
     <article className="relative pb-24 pt-32 sm:pt-40">
@@ -38,7 +44,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
         <motion.div initial="hidden" animate="show" variants={fadeUp}>
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-text-secondary transition-colors hover:text-primary"
+            className="inline-flex min-h-11 items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-text-secondary transition-colors hover:text-primary"
           >
             <ArrowLeft size={16} />
             {t(locale, "project.backToProjects")}
@@ -74,10 +80,10 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
                 {t(locale, "project.viewCode")}
               </a>
             )}
-            {project.demo && (
-              <a href={project.demo} target="_blank" rel="noreferrer" className="btn-primary">
+            {liveUrl && (
+              <a href={liveUrl} target="_blank" rel="noreferrer" className="btn-primary">
                 <ExternalLink size={16} />
-                {t(locale, "project.liveDemo")}
+                {isPrototype ? t(locale, "project.openPrototype") : t(locale, "project.liveDemo")}
               </a>
             )}
           </motion.div>
@@ -88,7 +94,7 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7 }}
-          className="relative mt-12 aspect-video w-full overflow-hidden rounded-2xl border border-line"
+          className="relative mt-12 aspect-video w-full overflow-hidden rounded-2xl border border-line bg-surface"
         >
           <Image
             src={project.thumbnail}
@@ -217,41 +223,47 @@ export default function ProjectDetailView({ project }: { project: ProjectWithDet
           </ul>
         </motion.div>
 
-        <div className="mt-16">
-          <motion.h2
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={fadeUp}
-            className="mb-6 font-mono text-[10px] uppercase tracking-[0.18em] text-text"
-          >
-            {t(locale, "project.result")}
-          </motion.h2>
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={staggerContainer(0.1)}
-            className="grid grid-cols-1 gap-4 sm:grid-cols-3"
-          >
-            {project.detail.gallery.map((image, i) => (
-              <motion.div
-                key={`${image}-${i}`}
-                variants={fadeUp}
-                whileHover={{ scale: 1.03 }}
-                className="relative aspect-[4/3] overflow-hidden rounded-xl border border-line"
-              >
-                <Image
-                  src={image}
-                  alt={`${project.name} screenshot ${i + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 hover:scale-110"
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+        {project.detail.gallery.length > 0 && (
+          <div className="mt-16">
+            <motion.h2
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={fadeUp}
+              className="mb-6 font-mono text-[10px] uppercase tracking-[0.18em] text-text"
+            >
+              {t(locale, "project.gallery")}
+            </motion.h2>
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.1 }}
+              variants={staggerContainer(0.1)}
+              className={
+                project.detail.gallery.length === 1
+                  ? "grid grid-cols-1 max-w-3xl"
+                  : "grid grid-cols-1 gap-4 sm:grid-cols-3"
+              }
+            >
+              {project.detail.gallery.map((image, i) => (
+                <motion.div
+                  key={`${image}-${i}`}
+                  variants={fadeUp}
+                  whileHover={{ scale: 1.02 }}
+                  className="relative aspect-[4/3] overflow-hidden rounded-xl border border-line bg-surface"
+                >
+                  <Image
+                    src={image}
+                    alt={`${project.name} screenshot ${i + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        )}
 
         <motion.div
           initial="hidden"

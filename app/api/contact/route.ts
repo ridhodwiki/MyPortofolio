@@ -5,13 +5,18 @@ import { NextRequest, NextResponse } from "next/server";
 const escapeHtml = (s: string) =>
   s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
-// Email tujuan — ganti dengan email asli kamu setelah verifikasi domain di Resend
+// Email tujuan, ganti dengan email asli kamu setelah verifikasi domain di Resend
 const OWNER_EMAIL = "ridhodwiki768@gmail.com";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, message } = body;
+    const { name, email, message, website } = body;
+
+    // Honeypot anti-spam: jika terisi oleh bot, kembalikan sukses palsu tanpa mengirim email
+    if (typeof website === "string" && website.trim().length > 0) {
+      return NextResponse.json({ success: true }, { status: 200 });
+    }
 
     // Validasi input
     if (!name || !email || !message) {
@@ -28,9 +33,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (name.trim().length > 100 || email.trim().length > 150 || message.trim().length > 2000) {
+      return NextResponse.json(
+        { error: "Panjang pesan melebihi batas maksimum." },
+        { status: 400 }
+      );
+    }
+
     // Validasi format email sederhana
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(email.trim())) {
       return NextResponse.json(
         { error: "Format email tidak valid." },
         { status: 400 }
@@ -47,15 +59,15 @@ export async function POST(req: NextRequest) {
       );
     }
     const resend = new Resend(apiKey);
-    const safeName = escapeHtml(name);
-    const safeEmail = escapeHtml(email);
-    const safeMessage = escapeHtml(message);
+    const safeName = escapeHtml(name.trim());
+    const safeEmail = escapeHtml(email.trim());
+    const safeMessage = escapeHtml(message.trim());
 
     const { data, error } = await resend.emails.send({
-      from: "Portfolio Contact <onboarding@resend.dev>", // Ganti setelah verifikasi domain
+      from: "Portfolio Contact <onboarding@resend.dev>",
       to: [OWNER_EMAIL],
-      replyTo: email,
-      subject: `Pesan baru dari ${name} — Portfolio`,
+      replyTo: email.trim(),
+      subject: `Pesan baru dari ${name.trim()} · Portfolio`,
       html: `
         <div style="font-family: Inter, Arial, sans-serif; max-width: 560px; margin: 0 auto; background: #0d0d1a; color: #fff; border-radius: 12px; overflow: hidden;">
           <div style="background: linear-gradient(135deg, #6C63FF, #00E5FF); padding: 28px 32px;">

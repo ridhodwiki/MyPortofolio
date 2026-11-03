@@ -169,14 +169,14 @@ export default function Navbar() {
               type="button"
               onClick={() => setLocale(locale === "id" ? "en" : "id")}
               aria-label={locale === "id" ? "Switch to English" : "Switch to Indonesian"}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface font-mono text-[10px] font-semibold uppercase tracking-wider text-text-secondary transition-colors hover:border-primary hover:text-primary"
+              className="flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-line bg-surface font-mono text-[10px] font-semibold uppercase tracking-wider text-text-secondary transition-colors hover:border-primary hover:text-primary"
             >
               {locale === "id" ? "EN" : "ID"}
             </button>
             <button
               type="button"
               onClick={() => setOpen((o) => !o)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-surface text-text-secondary transition-colors hover:border-primary hover:text-primary md:hidden"
+              className="inline-flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-line bg-surface text-text-secondary transition-colors hover:border-primary hover:text-primary md:hidden"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
             >
@@ -229,7 +229,7 @@ export default function Navbar() {
                         handleNavClick(link.href);
                       }}
                       className={cn(
-                        "flex items-center justify-between px-4 py-3 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors",
+                        "flex min-h-11 items-center justify-between px-4 py-3 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors",
                         active === link.href
                           ? "text-primary"
                           : "text-text-secondary hover:text-text"

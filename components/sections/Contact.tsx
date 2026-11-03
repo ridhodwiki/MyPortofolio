@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { motion } from "motion/react";
-import { Mail, Github, Linkedin, Send, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { Mail, Github, Linkedin, Send, CheckCircle2, ArrowUpRight, Copy, Check } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { profile } from "@/lib/data";
@@ -15,18 +15,31 @@ type Status = "idle" | "loading" | "success" | "error";
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [copied, setCopied] = useState(false);
   const { locale } = useLanguage();
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback if clipboard API is unavailable
+    }
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
     setErrorMessage("");
 
-    const formData = new FormData(e.currentTarget);
+    const formEl = e.currentTarget;
+    const formData = new FormData(formEl);
     const data = {
       name: formData.get("visitor-fullname") as string,
       email: formData.get("visitor-emailaddr") as string,
       message: formData.get("message") as string,
+      website: formData.get("website") as string,
     };
 
     try {
@@ -40,37 +53,52 @@ export default function Contact() {
 
       if (response.ok) {
         setStatus("success");
-        (e.target as HTMLFormElement).reset();
+        formEl.reset();
         setTimeout(() => setStatus("idle"), 2500);
       } else {
+        const payload = await response.json().catch(() => null);
         setStatus("error");
-        setErrorMessage("Gagal mengirim pesan. Coba lagi.");
-        setTimeout(() => setStatus("idle"), 2500);
+        setErrorMessage(payload?.error || t(locale, "contact.error"));
+        setTimeout(() => setStatus("idle"), 3000);
       }
-    } catch (error) {
+    } catch {
       setStatus("error");
-      setErrorMessage("Terjadi kesalahan. Coba lagi.");
-      setTimeout(() => setStatus("idle"), 2500);
+      setErrorMessage(t(locale, "contact.error"));
+      setTimeout(() => setStatus("idle"), 3000);
     }
   };
 
   const contactLinks = [
-    { icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-    { icon: Github, label: "GitHub", value: "@ridhodwiki", href: profile.github },
-    { icon: Linkedin, label: "LinkedIn", value: "Ridho Dwiki Zakaria", href: profile.linkedin },
-    { icon: InstagramIcon, label: "Instagram", value: "@ridho.dwikiii", href: "https://instagram.com/ridho.dwikiii" },
+    { icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}`, isEmail: true },
+    { icon: Github, label: "GitHub", value: "@ridhodwiki", href: profile.github, isEmail: false },
+    { icon: Linkedin, label: "LinkedIn", value: "Ridho Dwiki Zakaria", href: profile.linkedin, isEmail: false },
+    { icon: InstagramIcon, label: "Instagram", value: "@ridho.dwikiii", href: "https://instagram.com/ridho.dwikiii", isEmail: false },
   ];
 
   const fields = [
-    { id: "visitor-fullname", label: t(locale, "contact.nameLabel"), type: "text", placeholder: t(locale, "contact.namePlaceholder") },
-    { id: "visitor-emailaddr", label: t(locale, "contact.emailLabel"), type: "email", placeholder: t(locale, "contact.emailPlaceholder") },
+    {
+      id: "visitor-fullname",
+      label: t(locale, "contact.nameLabel"),
+      type: "text",
+      autoComplete: "name",
+      maxLength: 100,
+      placeholder: t(locale, "contact.namePlaceholder"),
+    },
+    {
+      id: "visitor-emailaddr",
+      label: t(locale, "contact.emailLabel"),
+      type: "email",
+      autoComplete: "email",
+      maxLength: 150,
+      placeholder: t(locale, "contact.emailPlaceholder"),
+    },
   ];
 
   return (
     <section id="contact" className="section-padding relative">
       <div className="section-container">
         <SectionHeading
-          eyebrow="Let's connect"
+          eyebrow={t(locale, "contact.eyebrow")}
           title={t(locale, "contact.title")}
           description={t(locale, "contact.description")}
           hue="blue"
@@ -84,30 +112,57 @@ export default function Contact() {
             variants={staggerContainer(0.06)}
             className="border-t border-line lg:col-span-4"
           >
-            {contactLinks.map(({ icon: Icon, label, value, href }) => (
-              <motion.a
+            {contactLinks.map(({ icon: Icon, label, value, href, isEmail }) => (
+              <motion.div
                 key={label}
-                href={href}
-                target={href.startsWith("http") ? "_blank" : undefined}
-                rel={href.startsWith("http") ? "noreferrer" : undefined}
                 variants={fadeUp}
-                className="group flex items-center justify-between gap-4 border-b border-line py-4"
+                className="flex items-center justify-between gap-2 border-b border-line py-4"
               >
-                <span className="min-w-0">
-                  <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
-                    <Icon size={12} />
-                    {label}
+                <a
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noreferrer" : undefined}
+                  className="group flex min-w-0 flex-1 items-center justify-between gap-3"
+                >
+                  <span className="min-w-0">
+                    <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
+                      <Icon size={12} />
+                      {label}
+                    </span>
+                    <span className="mt-1 block truncate text-sm text-text-secondary transition-colors group-hover:text-primary">
+                      {value}
+                    </span>
                   </span>
-                  <span className="mt-1 block truncate text-sm text-text-secondary transition-colors group-hover:text-primary">
-                    {value}
-                  </span>
-                </span>
-                <ArrowUpRight
-                  size={14}
-                  aria-hidden
-                  className="shrink-0 text-text-muted transition-colors group-hover:text-primary"
-                />
-              </motion.a>
+                  {!isEmail && (
+                    <ArrowUpRight
+                      size={14}
+                      aria-hidden
+                      className="shrink-0 text-text-muted transition-colors group-hover:text-primary"
+                    />
+                  )}
+                </a>
+
+                {isEmail && (
+                  <button
+                    type="button"
+                    onClick={handleCopyEmail}
+                    aria-label={copied ? t(locale, "contact.copied") : t(locale, "contact.copyEmail")}
+                    className="inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-lg border border-line bg-surface px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-wider text-text-secondary transition-colors hover:border-primary hover:text-primary"
+                  >
+                    {copied ? (
+                      <>
+                        <Check size={12} className="text-hue-emerald" />
+                        <span className="text-hue-emerald">{t(locale, "contact.copied")}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={12} />
+                        <span>{t(locale, "contact.copyEmail")}</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </motion.div>
             ))}
           </motion.div>
 
@@ -117,9 +172,20 @@ export default function Contact() {
             viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer(0.06)}
             onSubmit={handleSubmit}
-            autoComplete="off"
             className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow-card)] sm:p-7 lg:col-span-8"
           >
+            {/* Honeypot anti-spam field */}
+            <div className="sr-only" aria-hidden="true">
+              <label htmlFor="website">Website</label>
+              <input
+                id="website"
+                name="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {fields.map((field) => (
                 <motion.div key={field.id} variants={fadeUp}>
@@ -134,11 +200,10 @@ export default function Contact() {
                     name={field.id}
                     type={field.type}
                     required
-                    autoComplete="off"
-                    data-lpignore="true"
-                    data-1p-ignore="true"
+                    maxLength={field.maxLength}
+                    autoComplete={field.autoComplete}
                     placeholder={field.placeholder}
-                    className="w-full rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text outline-none transition-colors placeholder:text-text-muted focus:border-primary"
+                    className="w-full rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text transition-colors placeholder:text-text-muted focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                   />
                 </motion.div>
               ))}
@@ -155,17 +220,18 @@ export default function Contact() {
                 id="message"
                 name="message"
                 required
+                maxLength={2000}
                 rows={5}
                 placeholder={t(locale, "contact.messagePlaceholder")}
-                className="w-full resize-none rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text outline-none transition-colors placeholder:text-text-muted focus:border-primary"
+                className="w-full resize-none rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text transition-colors placeholder:text-text-muted focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
               />
             </motion.div>
 
             <motion.button
               variants={fadeUp}
               type="submit"
-              disabled={status !== "idle"}
-              className="btn-primary mt-1 w-full sm:w-fit disabled:opacity-70"
+              disabled={status === "loading"}
+              className="btn-primary mt-1 min-h-11 w-full sm:w-fit disabled:opacity-70"
             >
               {status === "idle" && (
                 <>
@@ -178,7 +244,7 @@ export default function Contact() {
                   <motion.span
                     animate={{ rotate: 360 }}
                     transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                    className="h-3.5 w-3.5 border border-current border-t-transparent"
+                    className="h-3.5 w-3.5 rounded-full border border-current border-t-transparent"
                   />
                   {t(locale, "contact.sending")}
                 </>
@@ -197,7 +263,7 @@ export default function Contact() {
               )}
             </motion.button>
             {status === "error" && (
-              <motion.p variants={fadeUp} className="text-xs text-hue-rose">
+              <motion.p role="alert" variants={fadeUp} className="text-xs text-hue-rose">
                 {errorMessage}
               </motion.p>
             )}

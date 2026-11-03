@@ -1,26 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { Award, ZoomIn } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CertificateModal from "@/components/ui/CertificateModal";
-import { certificates } from "@/lib/data";
+import { getCertificates } from "@/lib/data";
 import { Certificate } from "@/lib/types";
 import { fadeUp, staggerContainer } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { t } from "@/lib/i18n";
 
 export default function Certificates() {
-  const [active, setActive] = useState<Certificate | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const { locale } = useLanguage();
+  const items = useMemo(() => getCertificates(locale), [locale]);
+  const active = useMemo(
+    () => items.find((c) => c.id === activeId) ?? null,
+    [items, activeId]
+  );
 
   return (
     <section id="certificates" className="section-padding relative">
       <div className="section-container">
         <SectionHeading
-          eyebrow="Proof of learning"
+          eyebrow={t(locale, "certificates.eyebrow")}
           title={t(locale, "certificates.title")}
           description={t(locale, "certificates.description")}
           hue="emerald"
@@ -33,12 +38,12 @@ export default function Certificates() {
           viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {certificates.map((cert) => (
+          {items.map((cert: Certificate) => (
             <motion.button
               type="button"
               key={cert.id}
               variants={fadeUp}
-              onClick={() => setActive(cert)}
+              onClick={() => setActiveId(cert.id)}
               className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface text-left shadow-[var(--shadow-card)] transition-colors duration-200 hover:border-hue-emerald/60"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-line bg-white">
@@ -52,7 +57,7 @@ export default function Certificates() {
                 <div className="absolute inset-0 flex items-center justify-center bg-canvas/80 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                   <span className="flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-text">
                     <ZoomIn size={12} />
-                    Preview
+                    {t(locale, "certificates.preview")}
                   </span>
                 </div>
               </div>
@@ -76,7 +81,7 @@ export default function Certificates() {
         </motion.div>
       </div>
 
-      <CertificateModal certificate={active} onClose={() => setActive(null)} />
+      <CertificateModal certificate={active} onClose={() => setActiveId(null)} />
     </section>
   );
 }

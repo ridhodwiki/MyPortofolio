@@ -51,9 +51,9 @@
   --c-secondary-dim: 90 103 125;
   --c-accent: 109 40 217;
   --c-accent-dim: 91 33 182;
-  --c-text: 24, 34, 52;
-  --c-text-secondary: 60, 75, 96;
-  --c-text-muted: 104, 118, 140;
+  --c-text: 24 34 52;
+  --c-text-secondary: 60 75 96;
+  --c-text-muted: 88 102 124;
   --c-line: 226 230 238;
   --c-on-primary: 255 255 255;
 
@@ -105,6 +105,25 @@ body::-webkit-scrollbar {
 :focus-visible {
   outline: 2px solid rgb(var(--c-primary));
   outline-offset: 3px;
+}
+
+@layer base {
+  a[href],
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary,
+  select:not(:disabled),
+  label[for] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
 }
 
 @layer components {
