@@ -147,6 +147,9 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
   }, [hovered, dragged]);
 
   useFrame((state, delta) => {
+    // A theme toggle can stall the animation loop, producing a huge delta that
+    // makes the lerp overshoot and diverges the band points until Float32 overflows.
+    const safeDelta = Math.min(delta, 1 / 30);
     if (dragged) {
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize();
@@ -162,13 +165,22 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
       [j1, j2].forEach((ref) => {
         if (!ref.current.lerped) ref.current.lerped = new THREE.Vector3().copy(ref.current.translation());
         const clampedDistance = Math.max(0.1, Math.min(1, ref.current.lerped.distanceTo(ref.current.translation())));
-        ref.current.lerped.lerp(ref.current.translation(), delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)));
+        ref.current.lerped.lerp(ref.current.translation(), Math.min(1, safeDelta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))));
       });
-      curve.points[0].copy(j3.current.translation());
-      curve.points[1].copy(j2.current.lerped);
-      curve.points[2].copy(j1.current.lerped);
-      curve.points[3].copy(fixed.current.translation());
-      band.current.geometry.setPoints(curve.getPoints(32));
+      const safe = (v, src) => {
+        const t = src();
+        const limit = (n) => (Number.isFinite(n) ? Math.max(-1e4, Math.min(1e4, n)) : 0);
+        v.set(limit(t.x), limit(t.y), limit(t.z));
+      };
+      safe(curve.points[0], () => j3.current.translation());
+      safe(curve.points[1], () => j2.current.lerped);
+      safe(curve.points[2], () => j1.current.lerped);
+      safe(curve.points[3], () => fixed.current.translation());
+      const points = curve.getPoints(32);
+      const allZero = points.every((p) => p.x === 0 && p.y === 0 && p.z === 0);
+      if (!allZero && points.every((p) => Number.isFinite(p.x) && Number.isFinite(p.y) && Number.isFinite(p.z))) {
+        band.current.geometry.setPoints(points);
+      }
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
@@ -225,8 +237,13 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
           </group>
         </RigidBody>
       </group>
-      <mesh ref={band}>
-        <meshLineGeometry />
+      <mesh ref={band} frustumCulled={false} geometry={useMemo(() => {
+        const geo = new MeshLineGeometry();
+        const pts = [];
+        for (let i = 0; i < 32; i++) pts.push(new THREE.Vector3(i * 0.1, 0, 0));
+        geo.setPoints(pts);
+        return geo;
+      }, [])}>
         <meshLineMaterial
           color="white"
           depthTest={false}
