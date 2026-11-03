@@ -2,13 +2,14 @@
 
 import { motion } from "motion/react";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { profile } from "@/lib/data";
+import { getInterests } from "@/lib/data";
 import { fadeUp, staggerContainer } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { t } from "@/lib/i18n";
 
 export default function About() {
   const { locale } = useLanguage();
+  const interests = getInterests(locale);
 
   const records = [
     {
@@ -81,7 +82,7 @@ export default function About() {
             </h3>
 
             <ul className="mt-3 border-t border-line">
-              {profile.interests.map((interest, i) => (
+              {interests.map((interest, i) => (
                 <motion.li
                   key={interest}
                   variants={fadeUp}

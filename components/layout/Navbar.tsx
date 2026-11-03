@@ -39,11 +39,32 @@ export default function Navbar() {
   }));
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
+      // Auto-activate #contact when scrolled to bottom of document
+      if (
+        pathname === "/" &&
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 64
+      ) {
+        setActive("#contact");
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
+
+  // Close mobile navigation drawer on Escape key press
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open]);
 
   useEffect(() => {
     if (pathname !== "/") return;

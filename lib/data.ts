@@ -27,6 +27,20 @@ export const profile = {
   ],
 };
 
+export function getInterests(locale: Locale = "id"): string[] {
+  if (locale === "en") {
+    return [
+      "Software Development",
+      "Web Engineering",
+      "Mobile Applications",
+      "Artificial Intelligence",
+      "UI/UX Interface Design",
+      "Information Systems",
+    ];
+  }
+  return profile.interests;
+}
+
 export const skills: Skill[] = [
   // Programming
   { name: "JavaScript", category: "Programming" },

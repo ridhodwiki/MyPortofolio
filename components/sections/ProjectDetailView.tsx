@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import {
   ArrowLeft,
+  ArrowRight,
   Github,
   ExternalLink,
   Layers,
@@ -17,7 +18,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { Project } from "@/lib/types";
-import { getProjectBySlug } from "@/lib/data";
+import { getProjectBySlug, getProjects } from "@/lib/data";
 import { fadeUp, staggerContainer } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { t } from "@/lib/i18n";
@@ -282,6 +283,64 @@ export default function ProjectDetailView({ project: initialProject }: { project
             {project.detail.result}
           </p>
         </motion.div>
+
+        {/* Previous & Next Project Navigation */}
+        {(() => {
+          const detailProjects = getProjects(locale).filter(
+            (p): p is ProjectWithDetail => Boolean(p.slug && p.detail)
+          );
+          const currentIndex = detailProjects.findIndex((p) => p.slug === project.slug);
+          const prevProj = currentIndex > 0 ? detailProjects[currentIndex - 1] : null;
+          const nextProj =
+            currentIndex >= 0 && currentIndex < detailProjects.length - 1
+              ? detailProjects[currentIndex + 1]
+              : null;
+
+          return (
+            <nav
+              aria-label="Case study navigation"
+              className="mt-12 flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div>
+                {prevProj ? (
+                  <Link
+                    href={`/projects/${prevProj.slug}`}
+                    className="group flex flex-col items-start gap-1 p-2 rounded-lg transition-colors hover:text-primary"
+                  >
+                    <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-text-secondary group-hover:text-primary">
+                      <ArrowLeft size={14} />
+                      {locale === "id" ? "Proyek Sebelumnya" : "Previous Project"}
+                    </span>
+                    <span className="text-sm font-semibold text-text group-hover:text-primary">
+                      {prevProj.name}
+                    </span>
+                  </Link>
+                ) : (
+                  <div />
+                )}
+              </div>
+
+              <div>
+                {nextProj ? (
+                  <Link
+                    href={`/projects/${nextProj.slug}`}
+                    className="group flex flex-col items-end gap-1 p-2 rounded-lg transition-colors hover:text-primary text-right"
+                  >
+                    <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-text-secondary group-hover:text-primary">
+                      {locale === "id" ? "Proyek Berikutnya" : "Next Project"}
+                      <ArrowRight size={14} />
+                    </span>
+                    <span className="text-sm font-semibold text-text group-hover:text-primary">
+                      {nextProj.name}
+                    </span>
+                  </Link>
+                ) : (
+                  <div />
+                )}
+              </div>
+            </nav>
+          );
+        })()}
       </div>
     </article>
   );

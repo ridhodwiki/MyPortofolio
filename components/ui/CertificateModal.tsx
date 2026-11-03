@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Award } from "lucide-react";
+import { X, Award, ChevronLeft, ChevronRight } from "lucide-react";
 import { Certificate } from "@/lib/types";
 import { useLanguage } from "@/context/LanguageContext";
 import { t } from "@/lib/i18n";
@@ -11,21 +11,50 @@ import { t } from "@/lib/i18n";
 export default function CertificateModal({
   certificate,
   onClose,
+  onPrev,
+  onNext,
+  hasPrev = false,
+  hasNext = false,
 }: {
   certificate: Certificate | null;
   onClose: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
+  hasPrev?: boolean;
+  hasNext?: boolean;
 }) {
   const { locale } = useLanguage();
+  const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+      } else if (e.key === "ArrowLeft" && onPrev && hasPrev) {
+        onPrev();
+      } else if (e.key === "ArrowRight" && onNext && hasNext) {
+        onNext();
+      } else if (e.key === "Tab" && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  }, [onClose, onPrev, onNext, hasPrev, hasNext]);
 
   useEffect(() => {
     if (!certificate) return;
@@ -55,6 +84,7 @@ export default function CertificateModal({
           onClick={onClose}
         >
           <motion.div
+            ref={modalRef}
             initial={{ opacity: 0, scale: 0.9, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 24 }}
@@ -62,15 +92,37 @@ export default function CertificateModal({
             onClick={(e) => e.stopPropagation()}
             className="glass-card relative w-full max-w-lg overflow-hidden p-0"
           >
-            <button
-              ref={closeButtonRef}
-              type="button"
-              onClick={onClose}
-              aria-label={t(locale, "certificates.closePreview")}
-              className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface/95 text-text shadow-sm transition-colors hover:border-primary hover:text-primary"
-            >
-              <X size={16} />
-            </button>
+            <div className="absolute right-3 top-3 z-10 flex items-center gap-1.5">
+              {hasPrev && onPrev && (
+                <button
+                  type="button"
+                  onClick={onPrev}
+                  aria-label={locale === "id" ? "Sertifikat Sebelumnya" : "Previous Certificate"}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface/95 text-text shadow-sm transition-colors hover:border-primary hover:text-primary"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+              )}
+              {hasNext && onNext && (
+                <button
+                  type="button"
+                  onClick={onNext}
+                  aria-label={locale === "id" ? "Sertifikat Berikutnya" : "Next Certificate"}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface/95 text-text shadow-sm transition-colors hover:border-primary hover:text-primary"
+                >
+                  <ChevronRight size={16} />
+                </button>
+              )}
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={onClose}
+                aria-label={t(locale, "certificates.closePreview")}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface/95 text-text shadow-sm transition-colors hover:border-primary hover:text-primary"
+              >
+                <X size={16} />
+              </button>
+            </div>
 
             {/* White plate behind certificate so dark-text artwork stays readable in both themes */}
             <div className="relative aspect-[4/3] w-full bg-white">

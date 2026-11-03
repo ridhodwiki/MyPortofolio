@@ -8,8 +8,33 @@ const escapeHtml = (s: string) =>
 // Email tujuan, ganti dengan email asli kamu setelah verifikasi domain di Resend
 const OWNER_EMAIL = "ridhodwiki768@gmail.com";
 
+// In-memory rate limiting: max 3 requests per 60 seconds per IP
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+  if (!record || now > record.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + 60_000 });
+    return false;
+  }
+  if (record.count >= 3) {
+    return true;
+  }
+  record.count += 1;
+  return false;
+}
+
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anonymous";
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: "Terlalu banyak permintaan. Silakan coba lagi dalam 1 menit." },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
     const { name, email, message, website } = body;
 
@@ -62,12 +87,13 @@ export async function POST(req: NextRequest) {
     const safeName = escapeHtml(name.trim());
     const safeEmail = escapeHtml(email.trim());
     const safeMessage = escapeHtml(message.trim());
+    const cleanSubjectName = name.trim().replace(/[\r\n]/g, " ");
 
     const { data, error } = await resend.emails.send({
       from: "Portfolio Contact <onboarding@resend.dev>",
       to: [OWNER_EMAIL],
       replyTo: email.trim(),
-      subject: `Pesan baru dari ${name.trim()} · Portfolio`,
+      subject: `Pesan baru dari ${cleanSubjectName} · Portfolio`,
       html: `
         <div style="font-family: Inter, Arial, sans-serif; max-width: 560px; margin: 0 auto; background: #0d0d1a; color: #fff; border-radius: 12px; overflow: hidden;">
           <div style="background: linear-gradient(135deg, #6C63FF, #00E5FF); padding: 28px 32px;">

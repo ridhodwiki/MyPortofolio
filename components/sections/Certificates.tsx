@@ -81,7 +81,28 @@ export default function Certificates() {
         </motion.div>
       </div>
 
-      <CertificateModal certificate={active} onClose={() => setActiveId(null)} />
+      <CertificateModal
+        certificate={active}
+        onClose={() => setActiveId(null)}
+        onPrev={
+          active
+            ? () => {
+                const idx = items.findIndex((c) => c.id === active.id);
+                if (idx > 0) setActiveId(items[idx - 1].id);
+              }
+            : undefined
+        }
+        onNext={
+          active
+            ? () => {
+                const idx = items.findIndex((c) => c.id === active.id);
+                if (idx >= 0 && idx < items.length - 1) setActiveId(items[idx + 1].id);
+              }
+            : undefined
+        }
+        hasPrev={Boolean(active && items.findIndex((c) => c.id === active.id) > 0)}
+        hasNext={Boolean(active && items.findIndex((c) => c.id === active.id) < items.length - 1)}
+      />
     </section>
   );
 }

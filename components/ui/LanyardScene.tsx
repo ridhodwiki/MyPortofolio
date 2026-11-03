@@ -56,7 +56,7 @@ export default function LanyardScene({ photoSrc }: { photoSrc: string }) {
       <div className="flex h-full w-full items-center justify-center overflow-hidden bg-[var(--color-surface)]">
         <img
           src={photoSrc}
-          alt=""
+          alt={photoSrc ? "Ridho Dwiki Zakaria ID Card" : ""}
           className="max-h-full max-w-full object-contain"
           draggable={false}
         />
@@ -82,7 +82,15 @@ export default function LanyardScene({ photoSrc }: { photoSrc: string }) {
 
 function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
   const band = useRef(), fixed = useRef(), j1 = useRef(), j2 = useRef(), j3 = useRef(), card = useRef(); // prettier-ignore
-  const vec = new THREE.Vector3(), ang = new THREE.Vector3(), rot = new THREE.Vector3(), dir = new THREE.Vector3(); // prettier-ignore
+  const { vec, ang, rot, dir } = useMemo(
+    () => ({
+      vec: new THREE.Vector3(),
+      ang: new THREE.Vector3(),
+      rot: new THREE.Vector3(),
+      dir: new THREE.Vector3(),
+    }),
+    []
+  );
   const segmentProps = { type: "dynamic", canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   const { nodes, materials } = useGLTF(GLTF_PATH);
   const bandTexture = useTexture(BAND_TEXTURE_PATH);
@@ -133,6 +141,22 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
     geo.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
     return geo;
   }, [nodes.card.geometry]);
+
+  const bandGeo = useMemo(() => {
+    const geo = new MeshLineGeometry();
+    const pts = [];
+    for (let i = 0; i < 32; i++) pts.push(new THREE.Vector3(i * 0.1, 0, 0));
+    geo.setPoints(pts);
+    return geo;
+  }, []);
+
+  // Dispose cloned geometries on unmount to prevent GPU leaks
+  useEffect(() => {
+    return () => {
+      cardGeo.dispose();
+      bandGeo.dispose();
+    };
+  }, [cardGeo, bandGeo]);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]); // prettier-ignore
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]); // prettier-ignore
@@ -215,11 +239,18 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
             position={[0, -1.2, -0.05]}
             onPointerOver={isMobile ? undefined : () => hover(true)}
             onPointerOut={isMobile ? undefined : () => hover(false)}
-            onPointerUp={isMobile ? undefined : (e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
-            onPointerDown={isMobile ? undefined : (e) =>
-            (e.target.setPointerCapture(e.pointerId),
-              drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation()))))
-            }
+            onPointerCancel={isMobile ? undefined : (e) => {
+              try { e.target.releasePointerCapture(e.pointerId); } catch {}
+              drag(false);
+            }}
+            onPointerUp={isMobile ? undefined : (e) => {
+              try { e.target.releasePointerCapture(e.pointerId); } catch {}
+              drag(false);
+            }}
+            onPointerDown={isMobile ? undefined : (e) => {
+              try { e.target.setPointerCapture(e.pointerId); } catch {}
+              drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
+            }}
           >
             {/* Card Face - handles both front and back with smart UV mapping */}
             <mesh geometry={cardGeo} scale={[1.125, 1, 1]}>
@@ -237,13 +268,7 @@ function Band({ maxSpeed = 50, minSpeed = 10, photoSrc, isMobile }) {
           </group>
         </RigidBody>
       </group>
-      <mesh ref={band} frustumCulled={false} geometry={useMemo(() => {
-        const geo = new MeshLineGeometry();
-        const pts = [];
-        for (let i = 0; i < 32; i++) pts.push(new THREE.Vector3(i * 0.1, 0, 0));
-        geo.setPoints(pts);
-        return geo;
-      }, [])}>
+      <mesh ref={band} frustumCulled={false} geometry={bandGeo}>
         <meshLineMaterial
           color="white"
           depthTest={false}

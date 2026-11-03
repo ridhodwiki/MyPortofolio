@@ -47,7 +47,7 @@ export default function Hero() {
     >
       <div className="relative flex flex-col lg:grid lg:grid-cols-2 min-h-screen items-center gap-4 lg:gap-8 overflow-visible lg:overflow-hidden">
         {/* Text content - left side desktop, top/centered mobile; all buttons on every size */}
-        <motion.div className="flex flex-col justify-center items-center text-center relative z-10 w-full px-4 pt-20 pb-4 lg:items-start lg:text-left lg:pl-16 lg:pr-0 lg:pt-0 lg:translate-x-16" variants={heroContainer} initial="hidden" animate={entrance}>
+        <motion.div className="flex flex-col justify-center items-center text-center relative z-10 w-full px-4 pt-20 pb-4 lg:items-start lg:text-left lg:pl-16 lg:pr-0 lg:pt-0" variants={heroContainer} initial="hidden" animate={entrance}>
           <motion.div className="w-full max-w-xl" variants={heroContainer} initial="hidden" animate={entrance}>
             <motion.span variants={heroItem} className="eyebrow mb-5">
               {t(locale, "hero.welcome")}
@@ -62,11 +62,30 @@ export default function Hero() {
               {t(locale, "hero.role")}
             </motion.p>
 
-            <motion.p variants={heroItem} className="mt-5 text-sm leading-relaxed sm:text-base" style={{ color: "var(--color-text)", opacity: 1 }}>
+            <motion.p variants={heroItem} className="mt-5 text-sm leading-relaxed sm:text-base text-text">
               {t(locale, "hero.description")}
             </motion.p>
 
-            <motion.div variants={heroItem} className="mt-9 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+            {/* Context metadata strip: Location, Status, Focus */}
+            <motion.dl variants={heroItem} className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-3 sm:gap-3 text-left w-full pt-4 border-t border-border/60">
+              <div className="rounded-lg bg-surface/50 p-2.5 border border-border/40">
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted">{t(locale, "hero.locationLabel")}</dt>
+                <dd className="mt-0.5 text-xs font-medium text-text">{t(locale, "hero.locationValue")}</dd>
+              </div>
+              <div className="rounded-lg bg-surface/50 p-2.5 border border-border/40">
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted">{t(locale, "hero.statusLabel")}</dt>
+                <dd className="mt-0.5 text-xs font-medium text-emerald-500 dark:text-emerald-400 flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  {t(locale, "hero.statusValue")}
+                </dd>
+              </div>
+              <div className="rounded-lg bg-surface/50 p-2.5 border border-border/40">
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted">{t(locale, "hero.focusLabel")}</dt>
+                <dd className="mt-0.5 text-xs font-medium text-text">{t(locale, "hero.focusValue")}</dd>
+              </div>
+            </motion.dl>
+
+            <motion.div variants={heroItem} className="mt-7 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
             <motion.a
               href={profile.cvUrl}
               download
