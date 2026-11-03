@@ -51,8 +51,7 @@ export default function Footer() {
           type="button"
           onClick={scrollTop}
           aria-label="Back to top"
-          className="mx-auto flex w-fit items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted transition-colors hover:text-primary"
-        >
+          className="mx-auto flex w-fit items-center gap-2 rounded-full border border-line px-3.5 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted transition-colors hover:border-primary hover:text-primary"        >
           <ArrowUp size={12} />
           top
         </button>
