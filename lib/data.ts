@@ -84,9 +84,9 @@ export const skillCategories = [
 ] as const;
 
 export const projectCategories = [
-  "Mobile Application",
   "Web Application",
-  "Internet of Things",
+  "Mobile Application",
+  "UI/UX Design",
 ] as const;
 
 export const projects: Project[] = [
@@ -178,49 +178,47 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "esp32-smart-mascot",
-    name: "ESP32 Smart Mascot",
+    slug: "kkl-informatika-upgris-2026",
+    name: "KKL Informatika UPGRIS 2026",
     description:
-      "Project IoT berupa maskot digital menggunakan ESP32 dengan OLED SSD1306, sensor suhu, sensor cahaya, LCD, dan animasi ekspresi wajah.",
-    category: "Internet of Things",
-    tech: ["ESP32", "Arduino", "OLED SSD1306", "DHT Sensor", "LCD"],
-    github: "https://github.com/ridhodwiki/esp32-smart-mascot",
-    demo: undefined,
-    thumbnail: "/images/10.png",
+      "Website dokumentasi interaktif perjalanan Kuliah Kerja Lapangan (KKL) Bali Program Studi Informatika UPGRIS 2026.",
+    category: "Web Application",
+    tech: ["HTML5", "CSS3", "JavaScript", "Responsive Web Design", "Vercel"],
+    github: undefined,
+    demo: "https://kkl-informatika-upgris-2026-static.vercel.app/",
+    externalLink: "https://kkl-informatika-upgris-2026-static.vercel.app/",
+    thumbnail: "/images/kkl-informatika.webp",
     detail: {
       overview:
-        "ESP32 Smart Mascot adalah maskot digital interaktif yang menampilkan ekspresi wajah animasi di layar OLED sekaligus memantau kondisi lingkungan sekitar seperti suhu dan cahaya.",
+        "Website KKL Informatika UPGRIS 2026 adalah platform web dokumentasi perjalanan Kuliah Kerja Lapangan mahasiswa Program Studi Informatika UPGRIS ke Bali (18–22 Agustus 2026), menyajikan narasi perjalanan, galeri foto, profil pembuat, dan kesan-kesan.",
       problem:
-        "Perangkat IoT edukatif sering terasa kaku dan kurang menarik secara visual, sehingga sulit digunakan sebagai media pembelajaran interaktif tentang sensor dan mikrokontroler.",
+        "Dokumentasi kegiatan kuliah lapangan sering kali hanya tersebar di grup pesan atau drive pribadi, sehingga momen berharga, rute perjalanan, dan kenangan mahasiswa sulit diakses secara terstruktur dan menarik.",
       solution:
-        "Merancang maskot digital berbasis ESP32 yang menampilkan animasi ekspresi wajah di OLED SSD1306 yang bereaksi terhadap data sensor suhu dan cahaya secara real-time, dilengkapi tampilan tambahan di LCD.",
+        "Membangun website dokumentasi statis bertema editorial Bali yang elegan, cepat, dan responsif dengan navigasi terstruktur mulai dari Tentang, Perjalanan, Pembuat, Galeri foto, hingga Kesan peserta.",
       features: [
-        "Animasi ekspresi wajah dinamis di OLED SSD1306",
-        "Monitoring suhu secara real-time dengan sensor DHT",
-        "Deteksi kondisi cahaya sekitar",
-        "Tampilan data pendukung di LCD",
-        "Reaksi ekspresi otomatis berdasarkan kondisi lingkungan",
+        "Hero section bertema Bali dengan tipografi editorial dan visual candi khas",
+        "Rangkaian timeline narasi perjalanan KKL 18–22 Agustus 2026",
+        "Galeri dokumentasi foto kegiatan mahasiswa yang responsif",
+        "Bagian profil pembuat dan tim pengembang web",
+        "Halaman kesan dan pesan peserta kegiatan",
+        "Desain responsif optimal untuk ponsel pintar, tablet, maupun desktop",
       ],
-      stack: ["ESP32", "Arduino IDE", "C++", "OLED SSD1306", "DHT Sensor", "LCD I2C"],
+      stack: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "Vercel"],
       process: [
-        "Perancangan skematik rangkaian dan pemilihan komponen",
-        "Simulasi awal menggunakan Wokwi",
-        "Pemrograman ESP32 untuk membaca data sensor",
-        "Pembuatan aset animasi wajah untuk OLED",
-        "Perakitan hardware dan pengujian akhir",
+        "Pengumpulan materi dokumentasi, foto kegiatan, dan jadwal perjalanan KKL Bali",
+        "Perancangan visual dengan palet warna natural Bali dan tipografi berkarakter",
+        "Penyusunan kode frontend dengan HTML5 semantik dan CSS3 modern",
+        "Penambahan interaksi navigasi halus dan lightbox galeri foto",
+        "Optimasi performa dan deployment statis cepat di Vercel",
       ],
       challenges: [
-        "Mengoptimalkan memori ESP32 untuk animasi wajah yang halus",
-        "Sinkronisasi pembacaan sensor dengan refresh rate layar",
-        "Merancang ekspresi yang natural dari data sensor sederhana",
+        "Menata galeri foto dengan resolusi tinggi agar tetap ringan diakses di koneksi mobile",
+        "Menciptakan nuansa visual yang harmonis antara estetika budaya Bali dan antarmuka web modern",
+        "Menyediakan navigasi antar-seksi yang intuitif tanpa framework berat",
       ],
-      gallery: [
-        "/images/11.png",
-        "/images/12.png",
-        "/images/13.png",
-      ],
+      gallery: ["/images/kkl-informatika.webp"],
       result:
-        "ESP32 Smart Mascot berhasil menghadirkan perangkat IoT yang interaktif dan ekspresif, menjadikan pembelajaran sensor dan mikrokontroler lebih menarik.",
+        "Website berhasil dipublikasikan secara publik di Vercel, menjadi arsip kenangan digital resmi yang dapat diakses dengan cepat oleh seluruh mahasiswa, dosen, dan civitas akademika.",
     },
   },
 ];
@@ -301,41 +299,38 @@ const projectsEn: Project[] = [
   {
     ...projects[2],
     description:
-      "IoT digital mascot built on ESP32 featuring an SSD1306 OLED face display, temperature and light sensors, and an auxiliary LCD.",
+      "Interactive documentation website for the 2026 Bali Field Trip (KKL) by UPGRIS Informatics Engineering.",
     detail: {
       overview:
-        "ESP32 Smart Mascot is an interactive digital desktop mascot that renders animated facial expressions on an OLED screen while monitoring ambient temperature and light in real time.",
+        "The KKL Informatika UPGRIS 2026 website is an official digital travelogue and event showcase for the Informatics Engineering field trip to Bali (August 18–22, 2026), presenting itinerary chronicles, photo galleries, contributor profiles, and participant impressions.",
       problem:
-        "Educational IoT kits often feel rigid and visually plain, making it harder to engage students when demonstrating microcontroller and sensor concepts.",
+        "Field trip memories and records often remain scattered across private chat groups and cloud folders, making it difficult for students and faculty to revisit moments in an organized, engaging format.",
       solution:
-        "Engineered an ESP32-powered mascot that displays real-time animated facial expressions on an SSD1306 OLED reacting to DHT temperature and light sensor readings, paired with live telemetry on an I2C LCD.",
+        "Created an elegant, responsive static web experience with warm Balinese editorial aesthetics, structured navigation through About, Itinerary, Creators, Gallery, and Impressions.",
       features: [
-        "Dynamic facial expression animations on an SSD1306 OLED display",
-        "Real-time ambient temperature monitoring via DHT sensor",
-        "Ambient light level detection",
-        "Live sensor telemetry readout on an auxiliary I2C LCD",
-        "Automatic emotional reactions triggered by environmental changes",
+        "Atmospheric Balinese hero presentation featuring distinctive cultural temple imagery",
+        "Chronological travel itinerary timeline for August 18–22, 2026",
+        "Responsive photo gallery showcasing student activities and destinations",
+        "Web developer and contributor profile showcase",
+        "Participant reflections and testimonials section",
+        "Lightweight, fast-loading responsive design for mobile, tablet, and desktop",
       ],
-      stack: ["ESP32", "Arduino IDE", "C++", "OLED SSD1306", "DHT Sensor", "LCD I2C"],
+      stack: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "Vercel"],
       process: [
-        "Designed circuit schematics and selected hardware components",
-        "Prototyped and simulated the circuit in Wokwi",
-        "Programmed ESP32 firmware in C++ to poll sensors reliably",
-        "Created custom bitmap facial animation frames for the OLED screen",
-        "Assembled physical hardware and calibrated sensor thresholds",
+        "Collected trip documentation, activity photos, and the official itinerary schedule",
+        "Crafted a visual identity using Balinese-inspired earthy palettes and distinctive typography",
+        "Engineered the frontend with semantic HTML5 and modern CSS3",
+        "Integrated responsive navigation and interactive photo preview mechanics",
+        "Optimized asset performance and deployed statically to Vercel",
       ],
       challenges: [
-        "Optimizing ESP32 memory usage for smooth OLED frame animations",
-        "Synchronizing sensor polling intervals with display refresh rates",
-        "Mapping simple sensor thresholds to natural-feeling mascot expressions",
+        "Keeping high-resolution destination photography fast on varying mobile networks",
+        "Balancing traditional Balinese visual motifs with modern, minimalist web UX",
+        "Delivering smooth section navigation without heavy JavaScript frameworks",
       ],
-      gallery: [
-        "/images/11.png",
-        "/images/12.png",
-        "/images/13.png",
-      ],
+      gallery: ["/images/kkl-informatika.webp"],
       result:
-        "ESP32 Smart Mascot delivered an expressive, interactive hardware showcase that makes learning sensors and microcontrollers engaging.",
+        "The website successfully deployed to Vercel, serving as a permanent digital archive accessible by students, professors, and university visitors.",
     },
   },
 ];

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
@@ -16,6 +17,8 @@ import {
   GitBranch,
   AlertTriangle,
   Trophy,
+  Share2,
+  Check,
 } from "lucide-react";
 import { Project } from "@/lib/types";
 import { getProjectBySlug, getProjects } from "@/lib/data";
@@ -33,11 +36,31 @@ const blocks = [
 
 export default function ProjectDetailView({ project: initialProject }: { project: ProjectWithDetail }) {
   const { locale } = useLanguage();
+  const [copiedLink, setCopiedLink] = useState(false);
   const localized = getProjectBySlug(initialProject.slug, locale);
   const project = (localized?.detail ? localized : initialProject) as ProjectWithDetail;
 
   const liveUrl = project.demo ?? project.externalLink;
   const isPrototype = !project.demo && !!project.externalLink;
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${project.name} · Ridho Dwiki Zakaria`,
+          text: project.description,
+          url,
+        });
+        return;
+      } catch {
+        // Fallback to clipboard
+      }
+    }
+    await navigator.clipboard.writeText(url);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
+  };
 
   return (
     <article className="relative pb-24 pt-32 sm:pt-40">
@@ -87,6 +110,26 @@ export default function ProjectDetailView({ project: initialProject }: { project
                 {isPrototype ? t(locale, "project.openPrototype") : t(locale, "project.liveDemo")}
               </a>
             )}
+            <button
+              type="button"
+              onClick={handleShare}
+              aria-label="Share case study"
+              className="btn-ghost"
+            >
+              {copiedLink ? (
+                <>
+                  <Check size={16} className="text-hue-emerald" />
+                  <span className="text-hue-emerald">
+                    {locale === "id" ? "Tautan Disalin" : "Link Copied"}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Share2 size={16} />
+                  <span>{locale === "id" ? "Bagikan" : "Share"}</span>
+                </>
+              )}
+            </button>
           </motion.div>
         </motion.div>
 

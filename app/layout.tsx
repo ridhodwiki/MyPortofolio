@@ -7,6 +7,7 @@ import { profile } from "@/lib/data";
 import { LanguageProvider } from "@/context/LanguageContext";
 import CustomCursor from "@/components/layout/CustomCursor";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import CommandPalette from "@/components/ui/CommandPalette";
 
 const siteUrl = "https://ridhodwiki.dev";
 
@@ -93,6 +94,37 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        {/* JSON-LD Schema.org Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  "@id": "https://ridhodwiki.dev/#person",
+                  name: profile.name,
+                  jobTitle: "Informatics Engineering Student & Developer",
+                  alumniOf: {
+                    "@type": "CollegeOrUniversity",
+                    name: profile.university,
+                  },
+                  url: siteUrl,
+                  sameAs: [profile.github, profile.linkedin, "https://instagram.com/ridho.dwikiii"],
+                  description: profile.heroDescription,
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://ridhodwiki.dev/#website",
+                  url: siteUrl,
+                  name: `${profile.name} Portfolio`,
+                  publisher: { "@id": "https://ridhodwiki.dev/#person" },
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body className="font-sans antialiased">
         <a
@@ -103,6 +135,7 @@ export default function RootLayout({
         </a>
         <LanguageProvider>
           <ScrollProgress />
+          <CommandPalette />
           <Navbar />
           <CustomCursor />
           <PageTransition>

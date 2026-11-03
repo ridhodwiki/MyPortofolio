@@ -113,7 +113,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "hero.statusLabel": "Status",
     "hero.statusValue": "Terbuka untuk kolaborasi",
     "hero.focusLabel": "Focus",
-    "hero.focusValue": "Web · Mobile · IoT",
+    "hero.focusValue": "Frontend · Web · UI/UX",
     "about.eyebrow": "Kenali saya",
     "about.title": "About Me",
     "about.description":
@@ -135,7 +135,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "projects.eyebrow": "Karya pilihan",
     "projects.title": "Projects",
     "projects.description":
-      "Beberapa project yang telah saya kembangkan, mulai dari desain aplikasi mobile, web modern, hingga Internet of Things.",
+      "Beberapa project yang telah saya kembangkan, mulai dari aplikasi web modern, landing page interaktif, hingga UI/UX interface design.",
     "projects.filterAll": "Semua",
     "timeline.eyebrow": "Perjalanan saya",
     "timeline.title": "Journey Timeline",
@@ -210,7 +210,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "hero.statusLabel": "Status",
     "hero.statusValue": "Open for collaboration",
     "hero.focusLabel": "Focus",
-    "hero.focusValue": "Web · Mobile · IoT",
+    "hero.focusValue": "Frontend · Web · UI/UX",
     "about.eyebrow": "Get to know me",
     "about.title": "About Me",
     "about.description": "A little story about my background and interests in technology.",
@@ -231,7 +231,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "projects.eyebrow": "Selected work",
     "projects.title": "Projects",
     "projects.description":
-      "Several projects I have developed, from mobile application design and modern web apps to Internet of Things.",
+      "Several projects I have developed, from modern web apps and interactive landing pages to UI/UX interface design.",
     "projects.filterAll": "All",
     "timeline.eyebrow": "My path so far",
     "timeline.title": "Journey Timeline",

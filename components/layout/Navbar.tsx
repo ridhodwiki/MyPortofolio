@@ -185,6 +185,23 @@ export default function Navbar() {
           </ul>
 
           <div className="flex items-center gap-2">
+            {/* Quick Command Palette trigger button */}
+            <button
+              type="button"
+              onClick={() => {
+                const event = new KeyboardEvent("keydown", {
+                  key: "k",
+                  ctrlKey: true,
+                  bubbles: true,
+                });
+                window.dispatchEvent(event);
+              }}
+              aria-label="Open command palette"
+              className="flex h-11 px-2.5 sm:h-9 items-center gap-1.5 rounded-lg border border-line bg-surface font-mono text-[10px] text-text-secondary transition-colors hover:border-primary hover:text-primary"
+            >
+              <span className="hidden sm:inline">Search</span>
+              <kbd className="rounded border border-line bg-canvas px-1 py-0.5 text-[9px]">⌘K</kbd>
+            </button>
             <ThemeToggle />
             <button
               type="button"
