@@ -79,7 +79,7 @@ export const projects: Project[] = [
     github: undefined,
     demo: undefined,
     externalLink: "https://www.figma.com/proto/5b8Q3Uku1GMl7RAPbLx7ke/MoTicket?node-id=97-698&starting-point-node-id=97%3A698&t=AvPDGfG5LWHc4wmU-1",
-    thumbnail: "/images/iPhone 16.png",
+    thumbnail: "/images/iPhone 16.webp",
   },
   {
     slug: "pt-yellowroll",
@@ -91,7 +91,7 @@ export const projects: Project[] = [
     github: undefined,
     demo: undefined,
     externalLink: "https://24670007uasdesainweb.vercel.app/index.html",
-    thumbnail: "/images/Yellowroll.png",
+    thumbnail: "/images/Yellowroll.webp",
   },
   {
     slug: "esp32-smart-mascot",
@@ -173,7 +173,7 @@ export const certificates: Certificate[] = [
     description:
       "Menyelesaikan pelatihan UI/UX untuk merancang desain aplikasi mobile modern menggunakan aplikasi Figma.",
     skills: ["UI/UX Design", "Figma", "Mobile App Design", "User Interface", "User Experience"],
-    image: "/images/14.jpeg",
+    image: "/images/14.webp",
   },
   {
     id: "cert-2",
@@ -183,7 +183,7 @@ export const certificates: Certificate[] = [
     description:
       "Menyelesaikan pelatihan pemrograman backend menggunakan framework Laravel tingkat dasar.",
     skills: ["Laravel", "PHP", "Backend Development", "MVC", "Web Development"],
-    image: "/images/Ridho Dwiki.png",
+    image: "/images/Ridho Dwiki.webp",
   },
   {
     id: "cert-3",
@@ -224,6 +224,16 @@ export const certificates: Certificate[] = [
       "Menyelesaikan kursus untuk memahami konsep dasar kecerdasan buatan, penerapannya, serta prinsip kerja AI modern.",
     skills: ["Artificial Intelligence", "Machine Learning Fundamentals", "AI Applications"],
     image: "/images/Coursera SFUW524KVQWO.webp"
+  },
+  {
+    id: "cert-7",
+    name: "Dicoding Event #1: Roadmap Belajar Coding Praktis di Era Gempuran AI",
+    institution: "Dicoding Indonesia",
+    year: "2026",
+    description:
+      "Menghadiri sesi webinar untuk memahami alur dan strategi belajar pemrograman secara praktis di tengah perkembangan teknologi AI.",
+    skills: ["Coding Roadmap", "Software Development", "Artificial Intelligence"],
+    image: "/images/dicoding-event-1-roadmap-belajar-coding-praktis-di-era-gempuran-ai-certificate.webp"
   }
 ];
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import WelcomeScreen from "@/components/layout/WelcomeScreen";
-import HeroBackground from "@/components/sections/HeroBackground";
+import VantaRings from "@/components/sections/VantaRings";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Skills from "@/components/sections/Skills";
@@ -19,7 +19,7 @@ export default function HomePage() {
   return (
     <>
       <WelcomeScreen />
-      <HeroBackground />
+      <VantaRings />
       <Hero />
       <About />
       <Skills />
