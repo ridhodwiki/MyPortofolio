@@ -6,6 +6,7 @@ import PageTransition from "@/components/layout/PageTransition";
 import { profile } from "@/lib/data";
 import { LanguageProvider } from "@/context/LanguageContext";
 import CustomCursor from "@/components/layout/CustomCursor";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 
 const siteUrl = "https://ridhodwiki.dev";
 
@@ -101,6 +102,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <LanguageProvider>
+          <ScrollProgress />
           <Navbar />
           <CustomCursor />
           <PageTransition>

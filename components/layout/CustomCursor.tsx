@@ -57,8 +57,11 @@ export default function CustomCursor() {
       <motion.div
         animate={{ scale: hovering ? 1.8 : 1 }}
         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        className="h-5 w-5 rounded-full"
-        style={{ background: "conic-gradient(#ff375f, #ff9f0a, #ffd60a, #30d158, #64d2ff, #0a84ff, #bf5af2, #ff375f)" }}
+        className="h-5 w-5 rounded-full ring-1 ring-black/20 dark:ring-white/20 shadow-sm"
+        style={{
+          background:
+            "conic-gradient(#ff375f, #ff9f0a, #ffd60a, #30d158, #64d2ff, #0a84ff, #bf5af2, #ff375f)",
+        }}
       />
     </motion.div>
   );
