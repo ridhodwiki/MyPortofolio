@@ -24,32 +24,34 @@ export default function Footer() {
   return (
     <footer className="border-t border-line">
       <div className="rainbow-rule w-full opacity-60" />
-      <div className="section-container flex flex-col gap-5 py-8 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
-          © {year} {profile.name} · {t(locale, "footer.copyright")}{" "}
-          <span className="text-text-muted/70">{t(locale, "footer.build")}</span>
-        </p>
+      <div className="section-container flex flex-col gap-5 py-8">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
+            © {year} {profile.name} · {t(locale, "footer.copyright")}{" "}
+            <span className="text-text-muted/70">{t(locale, "footer.build")}</span>
+          </p>
 
-        <div className="flex items-center gap-5">
-          {socials.map(({ icon: Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target={href.startsWith("http") ? "_blank" : undefined}
-              rel={href.startsWith("http") ? "noreferrer" : undefined}
-              aria-label={label}
-              className="text-text-secondary transition-colors hover:text-primary"
-            >
-              <Icon size={14} />
-            </a>
-          ))}
+          <div className="flex items-center gap-5">
+            {socials.map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel={href.startsWith("http") ? "noreferrer" : undefined}
+                aria-label={label}
+                className="text-text-secondary transition-colors hover:text-primary"
+              >
+                <Icon size={14} />
+              </a>
+            ))}
+          </div>
         </div>
 
         <button
           type="button"
           onClick={scrollTop}
           aria-label="Back to top"
-          className="flex w-fit items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted transition-colors hover:text-primary"
+          className="mx-auto flex w-fit items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted transition-colors hover:text-primary"
         >
           <ArrowUp size={12} />
           top
