@@ -112,7 +112,7 @@ export default function VantaRings() {
     <div
       ref={containerRef}
       aria-hidden
-      className={`pointer-events-none fixed inset-0 -z-10 h-[120vh] w-full overflow-hidden bg-[rgb(var(--c-base))] transition-opacity duration-500 ${
+      className={`pointer-events-none fixed inset-0 -z-10 -translate-y-[8vh] sm:-translate-y-[6vh] h-[130vh] w-full overflow-hidden bg-[rgb(var(--c-base))] transition-opacity duration-500 ${
         light ? "opacity-45" : "opacity-75"
       }`}
     />
