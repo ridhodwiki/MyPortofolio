@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import { getSupabase } from "@/lib/supabase";
 
 // Escape HTML agar input user tidak bisa menyisipkan markup ke email
 const escapeHtml = (s: string) =>
@@ -129,6 +130,18 @@ export async function POST(req: NextRequest) {
         { error: "Gagal mengirim pesan. Coba lagi nanti." },
         { status: 500 }
       );
+    }
+
+    // Store the message so it can appear in the public feedback history.
+    // A failed insert must not turn a delivered email into an error response.
+    const supabase = getSupabase();
+    if (supabase) {
+      const { error: insertError } = await supabase.from("feedback").insert({
+        name: name.trim(),
+        email: email.trim(),
+        message: message.trim(),
+      });
+      if (insertError) console.error("[Feedback insert error]", insertError);
     }
 
     return NextResponse.json({ success: true, id: data?.id }, { status: 200 });

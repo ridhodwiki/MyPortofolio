@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import { motion } from "motion/react";
 import { Mail, Github, Linkedin, Send, CheckCircle2, ArrowUpRight, Copy, Check } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
+import FeedbackList from "@/components/ui/FeedbackList";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { profile } from "@/lib/data";
 import { fadeUp, staggerContainer } from "@/lib/utils";
@@ -16,6 +17,7 @@ export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [copied, setCopied] = useState(false);
+  const [feedbackKey, setFeedbackKey] = useState(0);
   const { locale } = useLanguage();
 
   const handleCopyEmail = async () => {
@@ -54,6 +56,7 @@ export default function Contact() {
       if (response.ok) {
         setStatus("success");
         formEl.reset();
+        setFeedbackKey((key) => key + 1);
         setTimeout(() => setStatus("idle"), 2500);
       } else {
         const payload = await response.json().catch(() => null);
@@ -166,108 +169,112 @@ export default function Contact() {
             ))}
           </motion.div>
 
-          <motion.form
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={staggerContainer(0.06)}
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow-card)] sm:p-7 lg:col-span-8"
-          >
-            {/* Honeypot anti-spam field */}
-            <div className="sr-only" aria-hidden="true">
-              <label htmlFor="website">Website</label>
-              <input
-                id="website"
-                name="website"
-                type="text"
-                tabIndex={-1}
-                autoComplete="off"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              {fields.map((field) => (
-                <motion.div key={field.id} variants={fadeUp}>
-                  <label
-                    htmlFor={field.id}
-                    className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted"
-                  >
-                    {field.label}
-                  </label>
-                  <input
-                    id={field.id}
-                    name={field.id}
-                    type={field.type}
-                    required
-                    maxLength={field.maxLength}
-                    autoComplete={field.autoComplete}
-                    placeholder={field.placeholder}
-                    className="w-full rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text transition-colors placeholder:text-text-muted focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-                  />
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div variants={fadeUp}>
-              <label
-                htmlFor="message"
-                className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted"
-              >
-                {t(locale, "contact.messageLabel")}
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                maxLength={2000}
-                rows={5}
-                placeholder={t(locale, "contact.messagePlaceholder")}
-                className="w-full resize-none rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text transition-colors placeholder:text-text-muted focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-              />
-            </motion.div>
-
-            <motion.button
-              variants={fadeUp}
-              type="submit"
-              disabled={status === "loading"}
-              className="btn-primary mt-1 min-h-11 w-full sm:w-fit disabled:opacity-70"
+          <div className="flex flex-col gap-6 lg:col-span-8">
+            <motion.form
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={staggerContainer(0.06)}
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow-card)] sm:p-7"
             >
-              {status === "idle" && (
-                <>
-                  <Send size={14} />
-                  {t(locale, "contact.sendMessage")}
-                </>
-              )}
-              {status === "loading" && (
-                <>
-                  <motion.span
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                    className="h-3.5 w-3.5 rounded-full border border-current border-t-transparent"
-                  />
-                  {t(locale, "contact.sending")}
-                </>
-              )}
-              {status === "success" && (
-                <>
-                  <CheckCircle2 size={14} />
-                  {t(locale, "contact.messageSent")}
-                </>
-              )}
+              {/* Honeypot anti-spam field */}
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="website">Website</label>
+                <input
+                  id="website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                {fields.map((field) => (
+                  <motion.div key={field.id} variants={fadeUp}>
+                    <label
+                      htmlFor={field.id}
+                      className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted"
+                    >
+                      {field.label}
+                    </label>
+                    <input
+                      id={field.id}
+                      name={field.id}
+                      type={field.type}
+                      required
+                      maxLength={field.maxLength}
+                      autoComplete={field.autoComplete}
+                      placeholder={field.placeholder}
+                      className="w-full rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text transition-colors placeholder:text-text-muted focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+
+              <motion.div variants={fadeUp}>
+                <label
+                  htmlFor="message"
+                  className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted"
+                >
+                  {t(locale, "contact.messageLabel")}
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  maxLength={2000}
+                  rows={5}
+                  placeholder={t(locale, "contact.messagePlaceholder")}
+                  className="w-full resize-none rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text transition-colors placeholder:text-text-muted focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                />
+              </motion.div>
+
+              <motion.button
+                variants={fadeUp}
+                type="submit"
+                disabled={status === "loading"}
+                className="btn-primary mt-1 min-h-11 w-full sm:w-fit disabled:opacity-70"
+              >
+                {status === "idle" && (
+                  <>
+                    <Send size={14} />
+                    {t(locale, "contact.sendMessage")}
+                  </>
+                )}
+                {status === "loading" && (
+                  <>
+                    <motion.span
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                      className="h-3.5 w-3.5 rounded-full border border-current border-t-transparent"
+                    />
+                    {t(locale, "contact.sending")}
+                  </>
+                )}
+                {status === "success" && (
+                  <>
+                    <CheckCircle2 size={14} />
+                    {t(locale, "contact.messageSent")}
+                  </>
+                )}
+                {status === "error" && (
+                  <>
+                    <Send size={14} />
+                    {t(locale, "contact.tryAgain")}
+                  </>
+                )}
+              </motion.button>
               {status === "error" && (
-                <>
-                  <Send size={14} />
-                  {t(locale, "contact.tryAgain")}
-                </>
+                <motion.p role="alert" variants={fadeUp} className="text-xs text-hue-rose">
+                  {errorMessage}
+                </motion.p>
               )}
-            </motion.button>
-            {status === "error" && (
-              <motion.p role="alert" variants={fadeUp} className="text-xs text-hue-rose">
-                {errorMessage}
-              </motion.p>
-            )}
-          </motion.form>
+            </motion.form>
+
+            <FeedbackList refreshKey={feedbackKey} />
+          </div>
         </div>
       </div>
     </section>

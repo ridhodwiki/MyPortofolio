@@ -67,6 +67,9 @@ export type TranslationKey =
   | "contact.error"
   | "contact.copyEmail"
   | "contact.copied"
+  | "contact.feedbackTitle"
+  | "contact.feedbackEmpty"
+  | "contact.feedbackError"
   | "footer.copyright"
   | "footer.build"
   | "project.backToProjects"
@@ -164,6 +167,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "contact.error": "Gagal mengirim pesan. Coba lagi.",
     "contact.copyEmail": "Salin email",
     "contact.copied": "Tersalin",
+    "contact.feedbackTitle": "Feedback terbaru",
+    "contact.feedbackEmpty": "Belum ada feedback. Jadilah yang pertama.",
+    "contact.feedbackError": "Gagal memuat feedback.",
     "footer.copyright": "All rights reserved.",
     "footer.build": "build v8",
     "project.backToProjects": "Kembali ke Projects",
@@ -260,6 +266,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "contact.error": "Failed to send message. Try again.",
     "contact.copyEmail": "Copy email",
     "contact.copied": "Copied",
+    "contact.feedbackTitle": "Latest feedback",
+    "contact.feedbackEmpty": "No feedback yet. Be the first.",
+    "contact.feedbackError": "Couldn't load feedback.",
     "footer.copyright": "All rights reserved.",
     "footer.build": "build v8",
     "project.backToProjects": "Back to Projects",
