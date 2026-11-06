@@ -15,6 +15,10 @@ const config: Config = {
         "2k": "2560px",
         "4k": "3840px",
       },
+      boxShadow: {
+        card: "var(--shadow-card)",
+        lift: "0 18px 44px -20px rgb(var(--c-primary) / 0.55)",
+      },
       colors: {
         canvas: "rgb(var(--c-base) / <alpha-value>)",
         surface: "rgb(var(--c-surface) / <alpha-value>)",

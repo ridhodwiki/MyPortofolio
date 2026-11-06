@@ -176,8 +176,12 @@ export default function Contact() {
               viewport={{ once: true, amount: 0.2 }}
               variants={staggerContainer(0.06)}
               onSubmit={handleSubmit}
-              className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-5 shadow-[var(--shadow-card)] sm:p-7"
+              className="relative flex flex-col gap-5 overflow-hidden rounded-2xl border border-line bg-surface bg-[radial-gradient(120%_90%_at_100%_0%,rgb(var(--c-primary)/0.07),transparent_62%)] p-5 shadow-card sm:p-7"
             >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent"
+              />
               {/* Honeypot anti-spam field */}
               <div className="sr-only" aria-hidden="true">
                 <label htmlFor="website">Website</label>
@@ -207,7 +211,7 @@ export default function Contact() {
                       maxLength={field.maxLength}
                       autoComplete={field.autoComplete}
                       placeholder={field.placeholder}
-                      className="w-full rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text transition-colors placeholder:text-text-muted focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                      className="w-full rounded-lg border border-line bg-canvas/70 px-3 py-2.5 text-sm text-text transition-[border-color,box-shadow,background-color] duration-200 placeholder:text-text-muted hover:border-primary/40 focus:border-primary focus:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                     />
                   </motion.div>
                 ))}
@@ -227,7 +231,7 @@ export default function Contact() {
                   maxLength={2000}
                   rows={5}
                   placeholder={t(locale, "contact.messagePlaceholder")}
-                  className="w-full resize-none rounded-lg border border-line bg-canvas px-3 py-2.5 text-sm text-text transition-colors placeholder:text-text-muted focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                  className="w-full resize-none rounded-lg border border-line bg-canvas/70 px-3 py-2.5 text-sm text-text transition-[border-color,box-shadow,background-color] duration-200 placeholder:text-text-muted hover:border-primary/40 focus:border-primary focus:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                 />
               </motion.div>
 
@@ -235,7 +239,7 @@ export default function Contact() {
                 variants={fadeUp}
                 type="submit"
                 disabled={status === "loading"}
-                className="btn-primary mt-1 min-h-11 w-full sm:w-fit disabled:opacity-70"
+                className="btn-primary mt-1 min-h-11 w-full shadow-[0_12px_30px_-12px_rgb(var(--c-primary)/0.8)] transition-[background-color,box-shadow,filter] duration-200 hover:shadow-[0_16px_38px_-12px_rgb(var(--c-primary)/0.95)] hover:brightness-110 active:brightness-95 disabled:opacity-70 sm:w-fit"
               >
                 {status === "idle" && (
                   <>
