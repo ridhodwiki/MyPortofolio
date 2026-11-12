@@ -1,6 +1,5 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
 export const alt = "Ridho Dwiki Zakaria - Portfolio";
 export const size = {
   width: 1200,
@@ -37,7 +36,7 @@ export default async function Image() {
           }}
         />
 
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", zIndex: 1 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <div
             style={{
               width: "14px",
@@ -59,7 +58,7 @@ export default async function Image() {
           </span>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px", zIndex: 1 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <h1
             style={{
               fontSize: "64px",
@@ -90,7 +89,6 @@ export default async function Image() {
             justifyContent: "space-between",
             borderTop: "1px solid #1E293B",
             paddingTop: "24px",
-            zIndex: 1,
           }}
         >
           <span style={{ fontSize: "20px", color: "#64748B" }}>
