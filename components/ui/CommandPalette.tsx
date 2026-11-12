@@ -156,7 +156,7 @@ export default function CommandPalette() {
         id: "act-cv",
         category: "Actions",
         title: "Download CV (PDF)",
-        subtitle: "Ridho-Dwiki-Zakaria-CV.pdf",
+        subtitle: profile.cvUrl.split("/").pop(),
         icon: FileText,
         action: () => window.open(profile.cvUrl, "_blank"),
       },

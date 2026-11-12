@@ -12,7 +12,7 @@ export const profile = {
   email: "ridhodwiki768@gmail.com",
   github: "https://github.com/ridhodwiki",
   linkedin: "https://www.linkedin.com/in/ridho-dwikii-650777391",
-  cvUrl: "/cv/Ridho-Dwiki-Zakaria-CV.pdf",
+  cvUrl: "/cv/CV_ATS_Ridho_Dwiki_Zakaria.pdf",
   heroDescription:
     "Mahasiswa Teknik Informatika Universitas PGRI Semarang dengan latar belakang Matematika dan IPA yang memiliki minat dalam pengembangan aplikasi, artificial intelligence, web development, dan teknologi digital.",
   aboutDescription:
