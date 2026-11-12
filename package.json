@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "pretest": "next build",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "next build && e2e run"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
@@ -27,10 +28,12 @@
     "vanta": "^0.5.24"
   },
   "devDependencies": {
+    "@e2e-dev/web": "^0.15.5",
     "@types/node": "^20.16.11",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.20",
+    "e2e": "^0.23.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "^15.5.28",
     "playwright": "^1.64.1",
