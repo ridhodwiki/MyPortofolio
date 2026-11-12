@@ -26,6 +26,16 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
+function isAllowedOrigin(req: NextRequest): boolean {
+  const origin = req.headers.get("origin");
+  if (!origin) return true;
+  try {
+    return origin === new URL(req.url).origin;
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anonymous";
@@ -34,6 +44,10 @@ export async function POST(req: NextRequest) {
         { error: "Terlalu banyak permintaan. Silakan coba lagi dalam 1 menit." },
         { status: 429 }
       );
+    }
+
+    if (!isAllowedOrigin(req)) {
+      return NextResponse.json({ error: "Origin tidak diizinkan." }, { status: 403 });
     }
 
     const body = await req.json();
