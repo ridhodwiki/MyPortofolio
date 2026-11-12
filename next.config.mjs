@@ -1,6 +1,18 @@
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
+const isDev = process.env.NODE_ENV === "development";
+
+// React dev callstacks and Turbopack HMR need eval(); production never does.
+const scriptSrc = [
+  "'self'",
+  "'unsafe-inline'",
+  "'wasm-unsafe-eval'",
+  isDev && "'unsafe-eval'",
+]
+  .filter(Boolean)
+  .join(" ");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // The home directory holds another lockfile; pin tracing to this project.
@@ -42,7 +54,7 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' blob:; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+              `default-src 'self'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' blob:; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';`,
           },
         ],
       },
