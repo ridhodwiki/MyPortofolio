@@ -50,9 +50,9 @@ export default function About() {
             </motion.p>
 
             <dl className="mt-8 border-t border-line">
-              {records.map((record) => (
+              {records.map((record, index) => (
                 <motion.div
-                  key={record.label}
+                  key={index}
                   variants={fadeUp}
                   className="grid grid-cols-1 gap-1 border-b border-line py-4 sm:grid-cols-[10rem_1fr] sm:gap-6"
                 >
@@ -84,7 +84,7 @@ export default function About() {
             <ul className="mt-3 border-t border-line">
               {interests.map((interest, i) => (
                 <motion.li
-                  key={interest}
+                  key={i}
                   variants={fadeUp}
                   className="flex items-center gap-3 border-b border-line py-2.5"
                 >

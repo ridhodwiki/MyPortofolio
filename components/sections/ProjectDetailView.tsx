@@ -188,9 +188,9 @@ export default function ProjectDetailView({ project: initialProject }: { project
               </h2>
             </motion.div>
             <ul className="space-y-3">
-              {project.detail.features.map((feature) => (
+              {project.detail.features.map((feature, i) => (
                 <motion.li
-                  key={feature}
+                  key={i}
                   variants={fadeUp}
                   className="flex items-start gap-3 text-sm text-text-secondary"
                 >
@@ -228,7 +228,7 @@ export default function ProjectDetailView({ project: initialProject }: { project
             <ol className="space-y-3">
               {project.detail.process.map((step, i) => (
                 <motion.li
-                  key={step}
+                  key={i}
                   variants={fadeUp}
                   className="flex items-start gap-3 text-sm text-text-secondary"
                 >
